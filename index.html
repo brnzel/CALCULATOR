@@ -60,6 +60,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 16px;
     font-family: 'Rajdhani', sans-serif;
     color: var(--text);
   }
@@ -73,7 +74,7 @@
   }
 
   .calc-wrapper {
-    width: 440px;
+    width: min(520px, 96vw);
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -1081,6 +1082,83 @@ function addMsg(role, text, isError) {
   document.getElementById('chat-area').scrollTop = 9999;
 }
 
+// \u2500\u2500 Word problem solver \u2500\u2500
+function solveWordProblem(s) {
+  const lower = s.toLowerCase();
+
+  // "X is/was/has N [unit], Y is/was/has M [unit], how many/what is ..."
+  // Pattern: extract all numbers + context, then figure out the operation
+
+  // "if X is AGE now, how many years [ago/until] was/will he be AGE2?"
+  const ageAgo = lower.match(/(?:is|am|are)\s+(\d+)\s+(?:years?\s+old\s+)?now.*?(\d+)\s+years?\s+ago/);
+  if (ageAgo) {
+    const now = parseFloat(ageAgo[1]), ago = parseFloat(ageAgo[2]);
+    const ans = now - ago;
+    return { val: ans, note: "Age " + now + " minus " + ago + " years ago" };
+  }
+  const ageUntil = lower.match(/(?:is|am|are)\s+(\d+).*?(?:will|be)\s+(\d+)/);
+  if (ageUntil) {
+    const now = parseFloat(ageUntil[1]), future = parseFloat(ageUntil[2]);
+    const ans = future - now;
+    return { val: ans, note: "Years until age " + future };
+  }
+
+  // "X has N apples, Y has M apples, how many total/together/combined?"
+  const totalMatch = lower.match(/(?:total|together|combined|altogether|sum|all)/);
+  const nums = [...lower.matchAll(/(\d+(?:\.\d+)?)/g)].map(m => parseFloat(m[1]));
+  if (totalMatch && nums.length >= 2) {
+    const ans = nums.reduce((a,b) => a+b, 0);
+    return { val: ans, note: nums.join(' + ') };
+  }
+
+  // "X has N, gives/loses/spent/ate M, how many left/remain/remaining?"
+  const leftMatch = lower.match(/(?:left|remain|remaining|after|has left|have left)/);
+  const giveMatch = lower.match(/(?:gave?|give?|los[et]|spent|used|ate?|sold|removed?|taken?|subtract)/);
+  if (leftMatch && giveMatch && nums.length >= 2) {
+    const ans = nums[0] - nums[1];
+    return { val: ans, note: nums[0] + ' - ' + nums[1] };
+  }
+
+  // "X earns/makes/costs/pays N per/every M [unit], how many in Y [unit]?"
+  const rateMatch = lower.match(/(\d+(?:\.\d+)?)\s*(?:per|every|each|a)\s*(?:hour|day|week|month|year|minute|second)/);
+  const timeMatch = lower.match(/(?:in|for|over|after)\s+(\d+(?:\.\d+)?)\s*(?:hours?|days?|weeks?|months?|years?|minutes?|seconds?)/);
+  if (rateMatch && timeMatch) {
+    const rate = parseFloat(rateMatch[1]), time = parseFloat(timeMatch[1]);
+    return { val: rate * time, note: rate + ' x ' + time };
+  }
+
+  // "split/divide/share N among/between/with M people"
+  const splitMatch = lower.match(/(?:split|divide|share|distributed?)\s*(\d+(?:\.\d+)?).*?(?:among|between|with|into|by|to)\s*(\d+)/);
+  if (splitMatch) {
+    const total = parseFloat(splitMatch[1]), parts = parseFloat(splitMatch[2]);
+    return { val: total / parts, note: total + ' / ' + parts };
+  }
+
+  // "N% of M" or "what is N percent of M"
+  const pctMatch = lower.match(/(\d+(?:\.\d+)?)\s*(?:%|percent(?:age)?)\s*(?:of)?\s*(\d+(?:\.\d+)?[kKMBT]?)/);
+  if (pctMatch) {
+    const pct = parseFloat(pctMatch[1]) / 100;
+    const base = parseAndCompute(pctMatch[2]);
+    if (base) return { val: pct * base.val, note: pctMatch[1] + '% of ' + pctMatch[2] };
+  }
+
+  // "how many X in Y" \u2014 unit conversion style: "how many minutes in 3 hours"
+  const unitIn = lower.match(/how many\s+(\w+)\s+in\s+(\d+(?:\.\d+)?)\s*(\w+)/);
+  const unitMap = {
+    'minutes in hours': 60, 'seconds in minutes': 60, 'seconds in hours': 3600,
+    'hours in days': 24, 'days in weeks': 7, 'months in years': 12,
+    'cm in meters': 100, 'mm in cm': 10, 'km in miles': 0.621371,
+    'miles in km': 1.60934, 'kg in pounds': 2.20462, 'pounds in kg': 0.453592,
+  };
+  if (unitIn) {
+    const key = unitIn[1] + ' in ' + unitIn[3];
+    const factor = unitMap[key];
+    if (factor) return { val: parseFloat(unitIn[2]) * factor, note: unitIn[2] + ' ' + unitIn[3] + ' x ' + factor };
+  }
+
+  return null;
+}
+
 function sendAI() {
   const input = document.getElementById('ai-input');
   const btn = document.getElementById('ai-send-btn');
@@ -1091,17 +1169,24 @@ function sendAI() {
   addMsg('user', raw);
 
   setTimeout(() => {
-    // 1. Chat reply?
+    // 1. Chat?
     const chat = getChatReply(raw);
     if (chat) { addMsg('ai', chat); btn.disabled = false; return; }
 
-    // 2. Math
+    // 2. Direct math
     const result = parseAndCompute(raw);
-    if (result !== null) {
-      addMsg('ai', buildReply(result, raw));
-    } else {
-      addMsg('ai', "Hmm, couldn't parse that. Try: 79M/20k, sqrt(144), or five hundred divided by three.", true);
+    if (result !== null) { addMsg('ai', buildReply(result, raw)); btn.disabled = false; return; }
+
+    // 3. Word problem
+    const wp = solveWordProblem(raw);
+    if (wp !== null) {
+      let out = (wp.note ? wp.note + '\n' : '') + buildReply(wp, raw);
+      addMsg('ai', out);
+      btn.disabled = false;
+      return;
     }
+
+    addMsg('ai', "Hmm, couldn't figure that out. Try: 79M/20k, sqrt(144), \"if X is 18 now, how old was he 5 years ago\"", true);
     btn.disabled = false;
   }, 120);
 }
