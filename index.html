@@ -6,503 +6,236 @@
 <title>CALC</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0c10;
-    --panel: #111318;
-    --border: #1e2330;
-    --accent: #00e5ff;
-    --accent2: #ff4081;
-    --accent3: #69ff47;
-    --purple: #c792ea;
-    --text: #e0e8f0;
-    --muted: #4a5568;
-    --display-bg: #060810;
-    --btn-bg: #161b26;
-    --btn-hover: #1e2535;
-    --btn-active: #252d42;
-  }
+:root {
+  --bg:#0a0c10; --panel:#111318; --border:#1e2330;
+  --accent:#00e5ff; --accent2:#ff4081; --accent3:#69ff47;
+  --purple:#c792ea; --text:#e0e8f0; --muted:#4a5568;
+  --display-bg:#060810; --btn-bg:#161b26; --btn-hover:#1e2535; --btn-active:#252d42;
+}
+[data-theme="sakura"]{--bg:#1a0a12;--panel:#211018;--border:#3d1f2e;--accent:#ff7eb3;--accent2:#ff4081;--accent3:#ffb3d1;--text:#ffe0ec;--muted:#7a4060;--display-bg:#130810;--btn-bg:#2a1020;--btn-hover:#381528;--btn-active:#451a32;}
+[data-theme="forest"]{--bg:#080f0a;--panel:#0f1a10;--border:#1a2e1c;--accent:#4ade80;--accent2:#fb923c;--accent3:#a3e635;--text:#d4f0d8;--muted:#3a5c3e;--display-bg:#050d06;--btn-bg:#111e13;--btn-hover:#172618;--btn-active:#1e301f;}
+[data-theme="amber"]{--bg:#0f0900;--panel:#1a1000;--border:#2e1f00;--accent:#f59e0b;--accent2:#ef4444;--accent3:#fde68a;--text:#fef3c7;--muted:#5c3d00;--display-bg:#0a0600;--btn-bg:#1f1400;--btn-hover:#2a1c00;--btn-active:#362400;}
+[data-theme="slate"]{--bg:#f0f2f5;--panel:#ffffff;--border:#d1d9e0;--accent:#3b82f6;--accent2:#ef4444;--accent3:#10b981;--text:#1e293b;--muted:#94a3b8;--display-bg:#e8ecf0;--btn-bg:#f8fafc;--btn-hover:#edf2f7;--btn-active:#e2e8f0;}
 
-  /* ── THEMES ── */
-  [data-theme="cyber"] {
-    --bg: #0a0c10; --panel: #111318; --border: #1e2330;
-    --accent: #00e5ff; --accent2: #ff4081; --accent3: #69ff47;
-    --text: #e0e8f0; --muted: #4a5568; --display-bg: #060810;
-    --btn-bg: #161b26; --btn-hover: #1e2535; --btn-active: #252d42;
-  }
-  [data-theme="sakura"] {
-    --bg: #1a0a12; --panel: #211018; --border: #3d1f2e;
-    --accent: #ff7eb3; --accent2: #ff4081; --accent3: #ffb3d1;
-    --text: #ffe0ec; --muted: #7a4060; --display-bg: #130810;
-    --btn-bg: #2a1020; --btn-hover: #381528; --btn-active: #451a32;
-  }
-  [data-theme="forest"] {
-    --bg: #080f0a; --panel: #0f1a10; --border: #1a2e1c;
-    --accent: #4ade80; --accent2: #fb923c; --accent3: #a3e635;
-    --text: #d4f0d8; --muted: #3a5c3e; --display-bg: #050d06;
-    --btn-bg: #111e13; --btn-hover: #172618; --btn-active: #1e301f;
-  }
-  [data-theme="amber"] {
-    --bg: #0f0900; --panel: #1a1000; --border: #2e1f00;
-    --accent: #f59e0b; --accent2: #ef4444; --accent3: #fde68a;
-    --text: #fef3c7; --muted: #5c3d00; --display-bg: #0a0600;
-    --btn-bg: #1f1400; --btn-hover: #2a1c00; --btn-active: #362400;
-  }
-  [data-theme="slate"] {
-    --bg: #f0f2f5; --panel: #ffffff; --border: #d1d9e0;
-    --accent: #3b82f6; --accent2: #ef4444; --accent3: #10b981;
-    --text: #1e293b; --muted: #94a3b8; --display-bg: #e8ecf0;
-    --btn-bg: #f8fafc; --btn-hover: #edf2f7; --btn-active: #e2e8f0;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background: var(--bg);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    font-family: 'Rajdhani', sans-serif;
-    color: var(--text);
-  }
-  body::before {
-    content:'';
-    position:fixed; inset:0;
-    background:
-      radial-gradient(ellipse at 20% 20%, rgba(0,229,255,0.04) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(255,64,129,0.04) 0%, transparent 50%);
-    pointer-events:none;
-  }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Rajdhani',sans-serif; color:var(--text); padding:16px;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse at 20% 20%,rgba(0,229,255,.04) 0%,transparent 50%),
+             radial-gradient(ellipse at 80% 80%,rgba(255,64,129,.04) 0%,transparent 50%);
+}
 
-  .calc-wrapper {
-    width: min(520px, 96vw);
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    box-shadow: 0 0 60px rgba(0,0,0,0.6), 0 0 20px rgba(0,229,255,0.05);
-    overflow: hidden;
-    position: relative;
-  }
-  .calc-wrapper::before {
-    content:'';
-    position:absolute; top:0; left:0; right:0; height:1px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0.5;
-  }
+.calc-wrapper{
+  width:min(500px,96vw);
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:16px; box-shadow:0 0 60px rgba(0,0,0,.6),0 0 20px rgba(0,229,255,.05);
+  overflow:hidden; position:relative;
+}
+.calc-wrapper::before{
+  content:''; position:absolute; top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:.5;
+}
 
-  /* ===== CALC TAB ===== */
-  #tab-calc { display: block; }
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);}
+.tab{
+  flex:1; padding:12px 8px; background:transparent; border:none;
+  font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:2.5px; color:var(--muted); cursor:pointer;
+  transition:all .15s; border-right:1px solid var(--border); position:relative;
+}
+.tab:last-child{border-right:none;}
+.tab.active{color:var(--accent);}
+.tab.active::after{
+  content:''; position:absolute; bottom:0; left:15%; right:15%; height:2px;
+  background:var(--accent); border-radius:2px 2px 0 0;
+}
+.tab:hover:not(.active){color:var(--text);}
 
-  /* Display */
-  .display {
-    background: var(--display-bg);
-    padding: 20px 22px 16px;
-    border-bottom: 1px solid var(--border);
-    min-height: 140px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-  .expr-line {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    color: var(--muted);
-    text-align: right;
-    min-height: 20px;
-    margin-bottom: 6px;
-    word-break: break-all;
-    letter-spacing: 1px;
-    opacity: 0.75;
-  }
-  .result-line {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 38px;
-    color: var(--text);
-    text-align: right;
-    line-height: 1.1;
-    transition: color 0.15s, transform 0.1s;
-    word-break: break-all;
-    letter-spacing: -0.5px;
-  }
-  .result-line.computed {
-    text-shadow: 0 0 20px rgba(0,229,255,0.3);
-  }
-  .result-line.computed { color: var(--accent); }
-  .result-line.error { color: var(--accent2) !important; font-size: 18px !important; }
-  .scaled-line {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    color: var(--accent3);
-    text-align: right;
-    min-height: 18px;
-    margin-top: 5px;
-    opacity: 0.9;
-    letter-spacing: 0.5px;
-  }
+/* DISPLAY */
+.display{
+  background:var(--display-bg); padding:20px 22px 14px;
+  border-bottom:1px solid var(--border); min-height:130px;
+  display:flex; flex-direction:column; justify-content:flex-end;
+}
+.expr-line{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--muted);text-align:right;min-height:18px;margin-bottom:4px;word-break:break-all;opacity:.75;letter-spacing:.5px;}
+.result-line{font-family:'Share Tech Mono',monospace;font-size:36px;color:var(--text);text-align:right;line-height:1.1;transition:color .15s;word-break:break-all;}
+.result-line.computed{color:var(--accent);text-shadow:0 0 20px rgba(0,229,255,.25);}
+.result-line.error{color:var(--accent2)!important;font-size:18px!important;}
+.scaled-line{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent3);text-align:right;min-height:16px;margin-top:4px;opacity:.9;letter-spacing:.5px;}
 
-  /* Suffix tag buttons */
-  .suffix-bar {
-    display: flex;
-    gap: 6px;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    background: #0d1018;
-    align-items: center;
-  }
-  .suffix-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    font-weight: 700;
-    margin-right: 2px;
-  }
-  .suf-btn {
-    padding: 4px 12px;
-    border-radius: 5px;
-    border: 1px solid var(--border);
-    background: transparent;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.12s;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-  .suf-btn:hover { color: var(--text); border-color: #3a4260; background: rgba(255,255,255,0.03); }
-  .suf-btn.k { color: #ffc947; border-color: rgba(255,201,71,0.3); background: rgba(255,201,71,0.05); }
-  .suf-btn.k:hover { background: rgba(255,201,71,0.12); }
-  .suf-btn.m { color: #ff7043; border-color: rgba(255,112,67,0.3); background: rgba(255,112,67,0.05); }
-  .suf-btn.m:hover { background: rgba(255,112,67,0.12); }
-  .suf-btn.b { color: var(--purple); border-color: rgba(199,146,234,0.3); background: rgba(199,146,234,0.05); }
-  .suf-btn.b:hover { background: rgba(199,146,234,0.12); }
-  .suf-btn.t { color: var(--accent); border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.05); }
-  .suf-btn.t:hover { background: rgba(0,229,255,0.12); }
+/* SUFFIX + THEME BAR */
+.suffix-bar{
+  display:flex; gap:6px; padding:10px 14px;
+  border-bottom:1px solid var(--border); background:#0d1018;
+  align-items:center; position:relative;
+}
+.suffix-label{font-size:10px;letter-spacing:2px;color:var(--muted);font-weight:700;flex-shrink:0;}
+.suf-btn{
+  padding:4px 12px; border-radius:5px; border:1px solid var(--border);
+  background:transparent; font-family:'Share Tech Mono',monospace;
+  font-size:13px; color:var(--muted); cursor:pointer; transition:all .12s; font-weight:700;
+}
+.suf-btn.k{color:#ffc947;border-color:rgba(255,201,71,.3);background:rgba(255,201,71,.05);}
+.suf-btn.m{color:#ff7043;border-color:rgba(255,112,67,.3);background:rgba(255,112,67,.05);}
+.suf-btn.b{color:var(--purple);border-color:rgba(199,146,234,.3);background:rgba(199,146,234,.04);}
+.suf-btn.t{color:var(--accent);border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.05);}
+.suf-btn:hover{opacity:.8;}
+.whole-btn{
+  margin-left:auto; background:transparent; border:1px solid var(--border);
+  border-radius:6px; padding:3px 9px; font-family:'Share Tech Mono',monospace;
+  font-size:11px; font-weight:700; color:var(--muted); cursor:pointer; transition:all .15s;
+}
+.whole-btn:hover{color:var(--text);}
+.whole-btn.on{background:rgba(105,255,71,.12);border-color:var(--accent3);color:var(--accent3);}
+.theme-corner{position:relative;flex-shrink:0;}
+.theme-icon-btn{
+  background:transparent; border:1px solid var(--border); border-radius:6px;
+  padding:3px 8px; font-size:14px; cursor:pointer; transition:background .12s; line-height:1;
+}
+.theme-icon-btn:hover{background:rgba(255,255,255,.07);}
+.theme-dropdown{
+  display:none; position:absolute; right:0; top:calc(100% + 6px);
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:10px; overflow:hidden; z-index:99;
+  min-width:130px; box-shadow:0 8px 24px rgba(0,0,0,.5);
+}
+.theme-dropdown.open{display:block;}
+.theme-dropdown .swatch{
+  display:flex; align-items:center; gap:9px; padding:8px 14px; cursor:pointer;
+  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:1px; color:var(--muted); transition:all .1s;
+}
+.theme-dropdown .swatch:hover{background:rgba(255,255,255,.05);color:var(--text);}
+.theme-dropdown .swatch.active{color:var(--accent);background:rgba(255,255,255,.03);}
+.sw-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;display:inline-block;}
 
-  /* Buttons grid */
-  .buttons {
-    padding: 14px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-  .btn {
-    padding: 17px 8px;
-    border-radius: 9px;
-    border: 1px solid var(--border);
-    background: var(--btn-bg);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.1s;
-    position: relative;
-    overflow: hidden;
-    letter-spacing: 0.5px;
-    user-select: none;
-  }
-  .btn:hover { background: var(--btn-hover); border-color: #2a3248; }
-  .btn:active { background: var(--btn-active); transform: scale(0.96); }
-  .btn.op { color: var(--accent); border-color: rgba(0,229,255,0.2); background: rgba(0,229,255,0.05); }
-  .btn.op:hover { background: rgba(0,229,255,0.1); border-color: rgba(0,229,255,0.35); }
-  .btn.fn { color: #b0b8d0; font-size: 12px; }
-  .btn.adv { color: var(--purple); font-size: 12px; border-color: rgba(199,146,234,0.2); background: rgba(199,146,234,0.04); }
-  .btn.adv:hover { background: rgba(199,146,234,0.1); }
-  .btn.clear { color: var(--accent2); border-color: rgba(255,64,129,0.25); background: rgba(255,64,129,0.05); }
-  .btn.clear:hover { background: rgba(255,64,129,0.12); }
-  .btn.eq { background: var(--accent); color: #000; border-color: var(--accent); font-size: 20px; font-weight: 700; }
-  .btn.eq:hover { background: #33eaff; }
-  .btn.eq:active { background: #00c4dd; }
-  .btn.span2 { grid-column: span 2; }
-  .ripple {
-    position: absolute; border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-    transform: scale(0);
-    animation: ripple 0.35s linear;
-    pointer-events: none;
-  }
-  @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+/* MODE BAR */
+.mode-bar{display:flex;border-bottom:1px solid var(--border);}
+.mode-btn{
+  flex:1; padding:7px; background:transparent; border:none;
+  font-family:'Rajdhani',sans-serif; font-size:10px; font-weight:700;
+  letter-spacing:1.5px; color:var(--muted); cursor:pointer;
+  border-right:1px solid var(--border); transition:all .15s;
+}
+.mode-btn:last-child{border-right:none;}
+.mode-btn.active{color:var(--accent3);background:rgba(105,255,71,.04);}
+.mode-btn:hover:not(.active){color:var(--text);}
 
-  /* Mode toggle */
-  .mode-bar {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-  }
-  .mode-btn {
-    flex: 1;
-    padding: 6px;
-    background: transparent;
-    border: none;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    cursor: pointer;
-    border-right: 1px solid var(--border);
-    transition: all 0.15s;
-  }
-  .mode-btn:last-child { border-right: none; }
-  .mode-btn.active { color: var(--accent3); background: rgba(105,255,71,0.04); }
-  .mode-btn:hover:not(.active) { color: var(--text); }
+/* BUTTONS */
+.buttons{padding:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.btn{
+  padding:17px 8px; border-radius:9px; border:1px solid var(--border);
+  background:var(--btn-bg); color:var(--text); font-family:'Rajdhani',sans-serif;
+  font-size:16px; font-weight:600; cursor:pointer; transition:all .1s;
+  position:relative; overflow:hidden; letter-spacing:.5px; user-select:none;
+}
+.btn:hover{background:var(--btn-hover);border-color:#2a3248;}
+.btn:active{background:var(--btn-active);transform:scale(.96);}
+.btn.op{color:var(--accent);border-color:rgba(0,229,255,.2);background:rgba(0,229,255,.05);}
+.btn.op:hover{background:rgba(0,229,255,.1);border-color:rgba(0,229,255,.35);}
+.btn.fn{color:#b0b8d0;font-size:13px;}
+.btn.adv{color:var(--purple);font-size:12px;border-color:rgba(199,146,234,.2);background:rgba(199,146,234,.04);}
+.btn.adv:hover{background:rgba(199,146,234,.1);}
+.btn.clear{color:var(--accent2);border-color:rgba(255,64,129,.25);background:rgba(255,64,129,.05);}
+.btn.clear:hover{background:rgba(255,64,129,.12);}
+.btn.eq{background:var(--accent);color:#000;border-color:var(--accent);font-size:20px;font-weight:700;}
+.btn.eq:hover{background:#33eaff;}
+.btn.eq:active{background:#00c4dd;}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.12);transform:scale(0);animation:ripple .35s linear;pointer-events:none;}
+@keyframes ripple{to{transform:scale(4);opacity:0;}}
 
-  /* HISTORY */
-  .history-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 16px;
-    border-top: 1px solid var(--border);
-    cursor: pointer;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    font-weight: 700;
-    transition: color 0.15s;
-    background: #0d1018;
-    user-select: none;
-  }
-  .history-toggle:hover { color: var(--text); }
-  .hist-count {
-    background: rgba(0,229,255,0.15);
-    color: var(--accent);
-    border-radius: 10px;
-    padding: 1px 7px;
-    font-size: 10px;
-    letter-spacing: 0.5px;
-  }
-  .history-panel {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.28s ease;
-    background: var(--display-bg);
-    border-top: none;
-  }
-  .history-panel.open {
-    max-height: 220px;
-    border-top: 1px solid var(--border);
-    overflow-y: auto;
-  }
-  .history-panel::-webkit-scrollbar { width: 3px; }
-  .history-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .hist-empty {
-    text-align: center;
-    padding: 22px;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 1px;
-    font-weight: 600;
-  }
-  .hist-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 9px 16px;
-    border-bottom: 1px solid #12161f;
-    cursor: pointer;
-    transition: background 0.1s;
-    gap: 12px;
-  }
-  .hist-item:last-child { border-bottom: none; }
-  .hist-item:hover { background: rgba(255,255,255,0.03); }
-  .hist-expr {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .hist-result {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    color: var(--accent);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .hist-clear {
-    display: block;
-    width: 100%;
-    padding: 7px;
-    background: transparent;
-    border: none;
-    border-top: 1px solid var(--border);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--accent2);
-    cursor: pointer;
-    font-weight: 700;
-    transition: background 0.12s;
-  }
-  /* THEME CORNER BUTTON + DROPDOWN */
-  .suffix-bar { position: relative; }
-  .theme-corner { margin-left: auto; position: relative; }
-  .theme-icon-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 3px 7px;
-    font-size: 14px;
-    cursor: pointer;
-    line-height: 1;
-    transition: background 0.12s;
-  }
-  .theme-icon-btn:hover { background: rgba(255,255,255,0.07); }
-  .whole-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 3px 8px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: all 0.15s;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-  .whole-btn:hover { color: var(--text); border-color: #3a4260; background: rgba(255,255,255,0.04); }
-  .whole-btn.on {
-    background: rgba(105,255,71,0.12);
-    border-color: var(--accent3);
-    color: var(--accent3);
-  }
-  .theme-dropdown {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: calc(100% + 6px);
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    z-index: 99;
-    min-width: 130px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  }
-  .theme-dropdown.open { display: block; }
-  .theme-dropdown .swatch {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 8px 14px;
-    cursor: pointer;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: var(--muted);
-    border-radius: 0;
-    border: none;
-    width: 100%;
-    transition: background 0.1s, color 0.1s;
-  }
-  .theme-dropdown .swatch:hover { background: rgba(255,255,255,0.05); color: var(--text); }
-  .theme-dropdown .swatch.active { color: var(--accent); background: rgba(255,255,255,0.03); }
-  .sw-dot {
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: inline-block;
-  }
+/* HISTORY */
+.history-toggle{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 16px; border-top:1px solid var(--border);
+  cursor:pointer; font-size:10px; letter-spacing:2px;
+  color:var(--muted); font-weight:700; background:#0d1018; user-select:none;
+}
+.history-toggle:hover{color:var(--text);}
+.hist-count{background:rgba(0,229,255,.15);color:var(--accent);border-radius:10px;padding:1px 7px;font-size:10px;}
+.history-panel{max-height:0;overflow:hidden;transition:max-height .28s ease;background:var(--display-bg);}
+.history-panel.open{max-height:200px;border-top:1px solid var(--border);overflow-y:auto;}
+.history-panel::-webkit-scrollbar{width:3px;}
+.history-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.hist-empty{text-align:center;padding:20px;font-size:11px;color:var(--muted);letter-spacing:1px;font-weight:600;}
+.hist-item{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:9px 16px; border-bottom:1px solid #12161f;
+  cursor:pointer; transition:background .1s; gap:12px;
+}
+.hist-item:last-child{border-bottom:none;}
+.hist-item:hover{background:rgba(255,255,255,.03);}
+.hist-expr{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-result{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--accent);white-space:nowrap;}
+.hist-clear{
+  display:block; width:100%; padding:7px; background:transparent; border:none;
+  border-top:1px solid var(--border); font-family:'Rajdhani',sans-serif;
+  font-size:10px; letter-spacing:2px; color:var(--accent2);
+  cursor:pointer; font-weight:700; transition:background .12s;
+}
+.hist-clear:hover{background:rgba(255,64,129,.06);}
 
-  /* TABS */
-  .tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-  }
-  .tab {
-    flex: 1; padding: 11px 8px;
-    background: transparent; border: none;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
-    color: var(--muted); cursor: pointer; transition: all 0.15s;
-    border-right: 1px solid var(--border); position: relative;
-  }
-  .tab:last-child { border-right: none; }
-  .tab.active { color: var(--accent); }
-  .tab.active::after {
-    content:''; position:absolute; bottom:0; left:15%; right:15%; height:2px;
-    background: var(--accent); border-radius: 2px 2px 0 0;
-  }
-  .tab:hover:not(.active) { color: var(--text); }
-
-  /* AI PANEL */
-  .ai-panel { padding:14px; display:flex; flex-direction:column; gap:10px; min-height:480px; }
-  .ai-hint {
-    font-size:11px; color:var(--muted); letter-spacing:0.5px; line-height:1.6;
-    background:rgba(0,229,255,0.04); border:1px solid rgba(0,229,255,0.1);
-    border-radius:8px; padding:10px 12px;
-  }
-  .ai-hint strong { color:var(--accent); font-family:'Share Tech Mono',monospace; }
-  .chat-area {
-    flex:1; background:var(--display-bg); border:1px solid var(--border);
-    border-radius:10px; padding:12px; overflow-y:auto;
-    min-height:300px; max-height:320px;
-    display:flex; flex-direction:column; gap:10px;
-  }
-  .chat-area::-webkit-scrollbar { width:3px; }
-  .chat-area::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
-  .msg { display:flex; flex-direction:column; gap:3px; max-width:92%; }
-  .msg.user { align-self:flex-end; align-items:flex-end; }
-  .msg.ai   { align-self:flex-start; align-items:flex-start; }
-  .msg-label { font-size:9px; letter-spacing:1.5px; color:var(--muted); font-weight:700; padding:0 4px; }
-  .msg-bubble {
-    font-family:'Share Tech Mono',monospace; font-size:12px;
-    padding:8px 12px; border-radius:10px; line-height:1.6;
-    word-break:break-word; white-space:pre-wrap; overflow-wrap:anywhere;
-  }
-  .msg.user .msg-bubble {
-    background:rgba(0,229,255,0.1); border:1px solid rgba(0,229,255,0.25);
-    color:var(--accent); border-radius:10px 10px 2px 10px;
-  }
-  .msg.ai .msg-bubble {
-    background:rgba(105,255,71,0.06); border:1px solid rgba(105,255,71,0.15);
-    color:var(--text); border-radius:10px 10px 10px 2px;
-  }
-  .msg.ai .msg-bubble.error-bubble {
-    background:rgba(255,64,129,0.06); border-color:rgba(255,64,129,0.2); color:var(--accent2);
-  }
-  .typing-dot {
-    display:inline-block; width:6px; height:6px; background:var(--accent3);
-    border-radius:50%; animation:blink 1s infinite; margin:0 2px;
-  }
-  .typing-dot:nth-child(2){animation-delay:0.2s}
-  .typing-dot:nth-child(3){animation-delay:0.4s}
-  @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
-  .ai-input-row { display:flex; gap:8px; }
-  .ai-input {
-    flex:1; background:var(--display-bg); border:1px solid var(--border);
-    border-radius:8px; padding:10px 14px;
-    font-family:'Share Tech Mono',monospace; font-size:13px;
-    color:var(--text); outline:none; transition:border-color 0.15s;
-  }
-  .ai-input::placeholder { color:var(--muted); }
-  .ai-input:focus { border-color:rgba(0,229,255,0.4); }
-  .ai-send {
-    padding:10px 18px; background:var(--accent); color:#000; border:none;
-    border-radius:8px; font-family:'Rajdhani',sans-serif; font-size:13px;
-    font-weight:700; letter-spacing:1px; cursor:pointer; transition:all 0.12s;
-  }
-  .ai-send:hover { background:#33eaff; }
-  .ai-send:disabled { opacity:0.4; cursor:not-allowed; }
-  .empty-state {
-    display:flex; align-items:center; justify-content:center;
-    height:100%; opacity:0.3; font-size:11px; letter-spacing:2px; font-weight:700;
-  }
+/* AI PANEL */
+.ai-panel{padding:14px;display:flex;flex-direction:column;gap:10px;height:100%;}
+.ai-hint{
+  font-size:11px;color:var(--muted);letter-spacing:.5px;line-height:1.6;
+  background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.1);
+  border-radius:8px;padding:10px 12px;flex-shrink:0;
+}
+.ai-hint strong{color:var(--accent);font-family:'Share Tech Mono',monospace;}
+.chat-area{
+  flex:1; background:var(--display-bg); border:1px solid var(--border);
+  border-radius:10px; padding:12px; overflow-y:auto;
+  display:flex; flex-direction:column; gap:10px; min-height:320px;
+}
+.chat-area::-webkit-scrollbar{width:3px;}
+.chat-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.msg{display:flex;flex-direction:column;gap:3px;max-width:92%;}
+.msg.user{align-self:flex-end;align-items:flex-end;}
+.msg.ai{align-self:flex-start;align-items:flex-start;}
+.msg-label{font-size:9px;letter-spacing:1.5px;color:var(--muted);font-weight:700;padding:0 4px;font-family:'Rajdhani',sans-serif;}
+.msg-bubble{
+  font-family:'Share Tech Mono',monospace;font-size:12px;
+  padding:8px 12px;border-radius:10px;line-height:1.6;
+  word-break:break-word;white-space:pre-wrap;overflow-wrap:anywhere;
+}
+.msg.user .msg-bubble{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--accent);border-radius:10px 10px 2px 10px;}
+.msg.ai  .msg-bubble{background:rgba(105,255,71,.06);border:1px solid rgba(105,255,71,.15);color:var(--text);border-radius:10px 10px 10px 2px;}
+.msg.ai  .msg-bubble.err{background:rgba(255,64,129,.06);border-color:rgba(255,64,129,.2);color:var(--accent2);}
+.typing-dot{display:inline-block;width:6px;height:6px;background:var(--accent3);border-radius:50%;animation:blink 1s infinite;margin:0 2px;}
+.typing-dot:nth-child(2){animation-delay:.2s}
+.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.ai-input-row{display:flex;gap:8px;flex-shrink:0;}
+.ai-input{
+  flex:1;background:var(--display-bg);border:1px solid var(--border);
+  border-radius:8px;padding:10px 14px;font-family:'Share Tech Mono',monospace;
+  font-size:13px;color:var(--text);outline:none;transition:border-color .15s;
+}
+.ai-input::placeholder{color:var(--muted);}
+.ai-input:focus{border-color:rgba(0,229,255,.4);}
+.ai-send{
+  padding:10px 20px;background:var(--accent);color:#000;border:none;
+  border-radius:8px;font-family:'Rajdhani',sans-serif;font-size:13px;
+  font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .12s;flex-shrink:0;
+}
+.ai-send:hover{background:#33eaff;}
+.ai-send:disabled{opacity:.4;cursor:not-allowed;}
+.empty-state{display:flex;align-items:center;justify-content:center;height:100%;opacity:.3;font-size:11px;letter-spacing:2px;font-weight:700;}
 </style>
 </head>
 <body>
-<div class="calc-wrapper">
+<div class="calc-wrapper" id="wrapper">
 
-  <!-- MAIN TABS -->
+  <!-- TABS -->
   <div class="tabs">
     <button class="tab active" id="t-calc" onclick="switchTab('calc')">CALCULATOR</button>
-    <button class="tab" id="t-ai" onclick="switchTab('ai')">✦ AI MATH</button>
+    <button class="tab" id="t-ai" onclick="switchTab('ai')">&#10022; AI MATH</button>
   </div>
 
   <!-- ===== CALC TAB ===== -->
@@ -513,111 +246,94 @@
       <div class="scaled-line" id="scaled"></div>
     </div>
 
-    <!-- Suffix shortcuts + theme button -->
     <div class="suffix-bar">
       <span class="suffix-label">SCALE</span>
       <button class="suf-btn k" onclick="appendSuffix('k')">k</button>
       <button class="suf-btn m" onclick="appendSuffix('M')">M</button>
       <button class="suf-btn b" onclick="appendSuffix('B')">B</button>
       <button class="suf-btn t" onclick="appendSuffix('T')">T</button>
-      <button class="whole-btn" id="whole-btn" onclick="toggleWholeMode()" title="1 decimal place mode">#.0</button>
-      <div class="theme-corner" id="theme-corner">
-        <button class="theme-icon-btn" onclick="toggleThemeDropdown(event)" title="Theme">🎨</button>
+      <button class="whole-btn" id="whole-btn" onclick="toggleWholeMode()">#.0</button>
+      <div class="theme-corner">
+        <button class="theme-icon-btn" onclick="toggleThemeDropdown(event)">&#127912;</button>
         <div class="theme-dropdown" id="theme-dropdown">
-          <div class="swatch active" data-t="cyber"  onclick="setTheme('cyber')">  <span class="sw-dot" style="background:conic-gradient(#00e5ff,#ff4081,#69ff47)"></span>Cyber</div>
-          <div class="swatch"        data-t="sakura" onclick="setTheme('sakura')"> <span class="sw-dot" style="background:conic-gradient(#ff7eb3,#ffb3d1,#ff4081)"></span>Sakura</div>
-          <div class="swatch"        data-t="forest" onclick="setTheme('forest')"> <span class="sw-dot" style="background:conic-gradient(#4ade80,#a3e635,#fb923c)"></span>Forest</div>
-          <div class="swatch"        data-t="amber"  onclick="setTheme('amber')">  <span class="sw-dot" style="background:conic-gradient(#f59e0b,#fde68a,#ef4444)"></span>Amber</div>
-          <div class="swatch"        data-t="slate"  onclick="setTheme('slate')">  <span class="sw-dot" style="background:conic-gradient(#3b82f6,#e2e8f0,#10b981)"></span>Slate</div>
+          <div class="swatch active" data-t="cyber"  onclick="setTheme('cyber')"> <span class="sw-dot" style="background:conic-gradient(#00e5ff,#ff4081,#69ff47)"></span>Cyber</div>
+          <div class="swatch"        data-t="sakura" onclick="setTheme('sakura')"><span class="sw-dot" style="background:conic-gradient(#ff7eb3,#ffb3d1,#ff4081)"></span>Sakura</div>
+          <div class="swatch"        data-t="forest" onclick="setTheme('forest')"><span class="sw-dot" style="background:conic-gradient(#4ade80,#a3e635,#fb923c)"></span>Forest</div>
+          <div class="swatch"        data-t="amber"  onclick="setTheme('amber')"> <span class="sw-dot" style="background:conic-gradient(#f59e0b,#fde68a,#ef4444)"></span>Amber</div>
+          <div class="swatch"        data-t="slate"  onclick="setTheme('slate')"> <span class="sw-dot" style="background:conic-gradient(#3b82f6,#e2e8f0,#10b981)"></span>Slate</div>
         </div>
       </div>
     </div>
 
-    <!-- Mode (Basic / Adv) -->
     <div class="mode-bar">
       <button class="mode-btn active" id="mb-basic" onclick="setMode('basic')">BASIC</button>
       <button class="mode-btn" id="mb-adv" onclick="setMode('adv')">ADVANCED</button>
     </div>
 
-    <!-- BASIC BUTTONS -->
     <div class="buttons" id="btns-basic">
       <button class="btn clear" onclick="action('ac')">AC</button>
-      <button class="btn fn" onclick="action('backspace')">⌫</button>
-      <button class="btn fn" onclick="action('pct')">%</button>
-      <button class="btn op" onclick="action('op','/')">÷</button>
-
+      <button class="btn fn"    onclick="action('backspace')">&#9003;</button>
+      <button class="btn fn"    onclick="action('pct')">%</button>
+      <button class="btn op"    onclick="action('op','/')">&#247;</button>
       <button class="btn" onclick="action('num','7')">7</button>
       <button class="btn" onclick="action('num','8')">8</button>
       <button class="btn" onclick="action('num','9')">9</button>
-      <button class="btn op" onclick="action('op','*')">×</button>
-
+      <button class="btn op" onclick="action('op','*')">&#215;</button>
       <button class="btn" onclick="action('num','4')">4</button>
       <button class="btn" onclick="action('num','5')">5</button>
       <button class="btn" onclick="action('num','6')">6</button>
-      <button class="btn op" onclick="action('op','-')">−</button>
-
+      <button class="btn op" onclick="action('op','-')">&#8722;</button>
       <button class="btn" onclick="action('num','1')">1</button>
       <button class="btn" onclick="action('num','2')">2</button>
       <button class="btn" onclick="action('num','3')">3</button>
       <button class="btn op" onclick="action('op','+')">+</button>
-
-      <button class="btn fn" onclick="action('sign')">+/−</button>
+      <button class="btn fn"  onclick="action('sign')">+/&#8722;</button>
       <button class="btn" onclick="action('num','0')">0</button>
       <button class="btn fn" onclick="action('dot')">.</button>
       <button class="btn eq" onclick="action('eq')">=</button>
     </div>
 
-    <!-- ADV BUTTONS -->
     <div class="buttons" id="btns-adv" style="display:none">
       <button class="btn clear" onclick="action('ac')">AC</button>
-      <button class="btn fn" onclick="action('backspace')">⌫</button>
-      <button class="btn fn" onclick="action('paren','(')">( </button>
-      <button class="btn fn" onclick="action('paren',')')"> )</button>
-
-      <button class="btn adv" onclick="action('fn','Math.sqrt(')">√x</button>
-      <button class="btn adv" onclick="action('fn','Math.cbrt(')">∛x</button>
-      <button class="btn adv" onclick="action('pow','**2')">x²</button>
-      <button class="btn adv" onclick="action('pow','**3')">x³</button>
-
+      <button class="btn fn"    onclick="action('backspace')">&#9003;</button>
+      <button class="btn fn"    onclick="action('paren','(')">( </button>
+      <button class="btn fn"    onclick="action('paren',')')"> )</button>
+      <button class="btn adv" onclick="action('fn','Math.sqrt(')">&#8730;x</button>
+      <button class="btn adv" onclick="action('pow','**2')">x&#178;</button>
+      <button class="btn adv" onclick="action('pow','**3')">x&#179;</button>
+      <button class="btn adv" onclick="action('pow','**')">x&#696;</button>
       <button class="btn adv" onclick="action('fn','Math.log(')">ln</button>
       <button class="btn adv" onclick="action('fn','Math.log10(')">log</button>
-      <button class="btn adv" onclick="action('fn','Math.exp(')">eˣ</button>
-      <button class="btn adv" onclick="action('pow','**')">xʸ</button>
-
       <button class="btn adv" onclick="action('fn','Math.sin(')">sin</button>
       <button class="btn adv" onclick="action('fn','Math.cos(')">cos</button>
       <button class="btn adv" onclick="action('fn','Math.tan(')">tan</button>
-      <button class="btn adv" onclick="action('const','Math.PI')">π</button>
-
+      <button class="btn adv" onclick="action('const','Math.PI')">&#960;</button>
+      <button class="btn adv" onclick="action('fn','Math.exp(')">e&#696;</button>
+      <button class="btn adv" onclick="action('fn','Math.abs(')">|x|</button>
       <button class="btn" onclick="action('num','7')">7</button>
       <button class="btn" onclick="action('num','8')">8</button>
       <button class="btn" onclick="action('num','9')">9</button>
-      <button class="btn op" onclick="action('op','/')">÷</button>
-
+      <button class="btn op" onclick="action('op','/')">&#247;</button>
       <button class="btn" onclick="action('num','4')">4</button>
       <button class="btn" onclick="action('num','5')">5</button>
       <button class="btn" onclick="action('num','6')">6</button>
-      <button class="btn op" onclick="action('op','*')">×</button>
-
+      <button class="btn op" onclick="action('op','*')">&#215;</button>
       <button class="btn" onclick="action('num','1')">1</button>
       <button class="btn" onclick="action('num','2')">2</button>
       <button class="btn" onclick="action('num','3')">3</button>
-      <button class="btn op" onclick="action('op','-')">−</button>
-
+      <button class="btn op" onclick="action('op','-')">&#8722;</button>
       <button class="btn" onclick="action('num','0')">0</button>
       <button class="btn fn" onclick="action('dot')">.</button>
       <button class="btn op" onclick="action('op','+')">+</button>
       <button class="btn eq" onclick="action('eq')">=</button>
     </div>
-    <!-- HISTORY -->
+
     <div class="history-toggle" id="hist-toggle" onclick="toggleHistory()">
-      <span>▸ HISTORY</span>
+      <span id="hist-label">&#9656; HISTORY</span>
       <span class="hist-count" id="hist-count" style="display:none"></span>
     </div>
-    <div class="history-panel" id="history-panel"></div>
-  </div></div>
-
-      </div>
+    <div class="history-panel" id="history-panel">
+      <div class="hist-empty">NO HISTORY YET</div>
     </div>
   </div>
 
@@ -625,100 +341,223 @@
   <div id="tab-ai" style="display:none">
     <div class="ai-panel">
       <div class="ai-hint">
-        Type any math — plain english or symbols.<br>
-        <strong>79M / 20k</strong> &nbsp;·&nbsp; <strong>sqrt(144)</strong> &nbsp;·&nbsp; <strong>five hundred / 3</strong> &nbsp;·&nbsp; <strong>2^10</strong>
+        Type any math or question &mdash; plain english or symbols.<br>
+        <strong>79M / 20k</strong> &nbsp;&middot;&nbsp; <strong>sqrt(144)</strong> &nbsp;&middot;&nbsp; <strong>if anshika is 14 now, how old was she 2 years ago</strong>
       </div>
       <div class="chat-area" id="chat-area">
-        <div class="empty-state" id="empty-state">
-          <p>TYPE A CALCULATION BELOW</p>
-        </div>
+        <div class="empty-state" id="empty-state">TYPE A CALCULATION BELOW</div>
       </div>
       <div class="ai-input-row">
-        <input class="ai-input" id="ai-input" placeholder="e.g. 40M / 20k" onkeydown="if(event.key==='Enter') sendAI()" autocomplete="off"/>
+        <input class="ai-input" id="ai-input" placeholder="e.g. 40M / 20k or five hundred / 3" autocomplete="off"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();sendAI();}" />
         <button class="ai-send" id="ai-send-btn" onclick="sendAI()">GO</button>
       </div>
     </div>
   </div>
-</div>
+
+</div><!-- end .calc-wrapper -->
 
 <script>
-// =================== CALCULATOR STATE ===================
+// ============================================================
+// STATE
+// ============================================================
 let expr = '', lastResult = null, hasResult = false, parenCount = 0;
-let calcMode = 'basic';
+let calcHistory = [];
+let wholeMode = localStorage.getItem('wholeMode') === 'true';
 
-const resultEl  = document.getElementById('result');
-const exprEl    = document.getElementById('expr');
-const scaledEl  = document.getElementById('scaled');
+const resultEl = document.getElementById('result');
+const exprEl   = document.getElementById('expr');
+const scaledEl = document.getElementById('scaled');
 
-
-
-function setTheme(t) {
-  document.querySelector('.calc-wrapper').setAttribute('data-theme', t);
-  document.querySelectorAll('.theme-dropdown .swatch').forEach(s => s.classList.toggle('active', s.dataset.t === t));
-  document.getElementById('theme-dropdown').classList.remove('open');
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(t) {
+  document.getElementById('tab-calc').style.display = t === 'calc' ? 'block' : 'none';
+  document.getElementById('tab-ai').style.display   = t === 'ai'   ? 'block' : 'none';
+  document.getElementById('t-calc').classList.toggle('active', t === 'calc');
+  document.getElementById('t-ai').classList.toggle('active',   t === 'ai');
+  if (t === 'ai') setTimeout(function(){ document.getElementById('ai-input').focus(); }, 50);
 }
 
+// ============================================================
+// THEME
+// ============================================================
+function setTheme(t) {
+  document.getElementById('wrapper').setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-dropdown .swatch').forEach(function(s){ s.classList.toggle('active', s.dataset.t === t); });
+  document.getElementById('theme-dropdown').classList.remove('open');
+  localStorage.setItem('calcTheme', t);
+}
 function toggleThemeDropdown(e) {
   e.stopPropagation();
   document.getElementById('theme-dropdown').classList.toggle('open');
 }
+document.addEventListener('click', function(){ document.getElementById('theme-dropdown').classList.remove('open'); });
+(function(){ var t = localStorage.getItem('calcTheme'); if(t) setTheme(t); })();
 
-document.addEventListener('click', () => {
-  document.getElementById('theme-dropdown').classList.remove('open');
-});
-
+// ============================================================
+// MODE
+// ============================================================
 function setMode(m) {
-  calcMode = m;
   document.getElementById('mb-basic').classList.toggle('active', m === 'basic');
   document.getElementById('mb-adv').classList.toggle('active',   m === 'adv');
   document.getElementById('btns-basic').style.display = m === 'basic' ? 'grid' : 'none';
   document.getElementById('btns-adv').style.display   = m === 'adv'   ? 'grid' : 'none';
-  reset();
 }
 
-// Suffix multipliers
-const SUFFIX = { k: 1e3, K: 1e3, Th: 1e3, th: 1e3, M: 1e6, B: 1e9, T: 1e12 };
+// ============================================================
+// WHOLE MODE
+// ============================================================
+function applyWholeMode() {
+  var btn = document.getElementById('whole-btn');
+  btn.classList.toggle('on', wholeMode);
+}
+function toggleWholeMode() {
+  wholeMode = !wholeMode;
+  localStorage.setItem('wholeMode', wholeMode);
+  applyWholeMode();
+  if (lastResult !== null) { resultEl.textContent = fmtNum(lastResult); showScaled(lastResult); }
+}
+applyWholeMode();
+
+// ============================================================
+// SUFFIX EXPANSION
+// ============================================================
+function expandSuffixes(e) {
+  return e
+    .replace(/(\d+(?:\.\d+)?)\s*Th/gi, function(_,n){ return '('+n+'*1000)'; })
+    .replace(/(\d+(?:\.\d+)?)\s*k/gi,  function(_,n){ return '('+n+'*1000)'; })
+    .replace(/(\d+(?:\.\d+)?)\s*M/g,   function(_,n){ return '('+n+'*1000000)'; })
+    .replace(/(\d+(?:\.\d+)?)\s*B/g,   function(_,n){ return '('+n+'*1000000000)'; })
+    .replace(/(\d+(?:\.\d+)?)\s*T/g,   function(_,n){ return '('+n+'*1000000000000)'; });
+}
 
 function appendSuffix(s) {
   if (!expr) return;
-  // don't double-append
   if (/[kKMBT]$/.test(expr) || /Th$/.test(expr)) return;
   expr += s;
   tryLiveEval();
   render();
 }
 
+// ============================================================
+// SAFE EVAL
+// ============================================================
+function safeEval(e) {
+  var exp = e + ')'.repeat(Math.max(0, parenCount));
+  exp = exp.replace(/(\d)(Math\.)/g, '$1*$2');
+  return Function('"use strict"; return (' + exp + ')')();
+}
+
+// ============================================================
+// FORMAT
+// ============================================================
+function fmtNum(n) {
+  if (wholeMode) return parseFloat(n.toFixed(1)).toLocaleString('en-US', {minimumFractionDigits:1, maximumFractionDigits:1});
+  if (Math.abs(n) >= 1e15) return n.toExponential(4);
+  if (!Number.isInteger(n) && Math.abs(n) < 1e10) return parseFloat(n.toPrecision(10)).toLocaleString('en-US');
+  return n.toLocaleString('en-US', {maximumFractionDigits:10});
+}
+
+function showScaled(n) {
+  if (!isFinite(n) || n === 0) { scaledEl.textContent = ''; return; }
+  var a = Math.abs(n);
+  var label = '';
+  if      (a >= 1e12) label = (n/1e12).toPrecision(6).replace(/\.?0+$/,'') + ' T';
+  else if (a >= 1e9)  label = (n/1e9).toPrecision(6).replace(/\.?0+$/,'')  + ' B';
+  else if (a >= 1e6)  label = (n/1e6).toPrecision(6).replace(/\.?0+$/,'')  + ' M';
+  else if (a >= 1e3)  label = (n/1e3).toPrecision(6).replace(/\.?0+$/,'')  + ' k';
+  scaledEl.textContent = label;
+}
+
+function prettify(e) {
+  return e.replace(/Math\.sqrt\(/g,'sqrt(').replace(/Math\.cbrt\(/g,'cbrt(')
+    .replace(/Math\.log10\(/g,'log(').replace(/Math\.log\(/g,'ln(')
+    .replace(/Math\.exp\(/g,'exp(').replace(/Math\.sin\(/g,'sin(')
+    .replace(/Math\.cos\(/g,'cos(').replace(/Math\.tan\(/g,'tan(')
+    .replace(/Math\.PI/g,'pi').replace(/Math\.abs\(/g,'abs(')
+    .replace(/\*\*/g,'^').replace(/\*/g,'x').replace(/\//g,'/');
+}
+
+// ============================================================
+// CALC ACTIONS
+// ============================================================
 function reset() {
   expr = ''; lastResult = null; hasResult = false; parenCount = 0;
-  resultEl.textContent = '0';
+  resultEl.textContent = '0'; resultEl.className = 'result-line';
+  exprEl.textContent = ''; scaledEl.textContent = '';
+}
+
+function render() {
+  resultEl.textContent = expr || '0';
   resultEl.className = 'result-line';
   exprEl.textContent = '';
   scaledEl.textContent = '';
 }
 
-function action(type, val, _evt) {
-  try { rippleEffect(_evt); } catch(e) {}
-  if (type === 'ac') { reset(); return; }
+function tryLiveEval() {
+  try {
+    var stripped = expr.replace(/[kKMBT]$/, '').replace(/Th$/, '');
+    if (expr && !/[\+\-\*\/\(]$/.test(stripped)) {
+      var r = safeEval(expandSuffixes(expr));
+      if (isFinite(r)) {
+        exprEl.textContent = prettify(expr);
+        resultEl.textContent = fmtNum(r);
+        resultEl.className = 'result-line';
+        showScaled(r); return;
+      }
+    }
+  } catch(e) {}
+  exprEl.textContent = '';
+  resultEl.textContent = expr || '0';
+  resultEl.className = 'result-line';
+  scaledEl.textContent = '';
+}
 
+function compute() {
+  if (!expr) return;
+  try {
+    var r = safeEval(expandSuffixes(expr));
+    if (!isFinite(r)) throw 0;
+    var pe = prettify(expr);
+    exprEl.textContent = pe + ' =';
+    calcHistory.unshift({expr: pe, result: r});
+    if (calcHistory.length > 50) calcHistory.pop();
+    renderHistory();
+    lastResult = r; expr = String(r); parenCount = 0; hasResult = true;
+    resultEl.textContent = fmtNum(r);
+    resultEl.className = 'result-line computed';
+    showScaled(r);
+  } catch(e) {
+    exprEl.textContent = prettify(expr);
+    resultEl.textContent = 'Error';
+    resultEl.className = 'result-line error';
+    scaledEl.textContent = '';
+    expr = ''; parenCount = 0;
+  }
+}
+
+function action(type, val) {
+  if (type === 'ac') { reset(); return; }
   if (type === 'backspace') {
     if (hasResult) { reset(); return; }
     if (/Th$/.test(expr)) expr = expr.slice(0,-2);
     else if (expr.length) {
-      const last = expr.slice(-1);
+      var last = expr.slice(-1);
       if (last === '(') parenCount--;
       if (last === ')') parenCount++;
       expr = expr.slice(0,-1);
     }
     tryLiveEval(); render(); return;
   }
-
   if (type === 'num') {
     if (hasResult) { expr = ''; hasResult = false; }
     expr += val;
   }
   if (type === 'dot') {
     if (hasResult) { expr = '0'; hasResult = false; }
-    const parts = expr.split(/[\+\-\*\/\(\)]/);
+    var parts = expr.split(/[\+\-\*\/\(\)]/);
     if (!parts[parts.length-1].includes('.')) expr += '.';
   }
   if (type === 'op') {
@@ -728,8 +567,8 @@ function action(type, val, _evt) {
   }
   if (type === 'sign') {
     if (!expr) return;
-    if (hasResult && lastResult !== null) { expr = String(-lastResult); hasResult = false; }
-    else expr = '(-(' + expr + '))';
+    expr = '(-(' + expr + '))';
+    hasResult = false;
   }
   if (type === 'pct') {
     if (expr) { try { expr = String(safeEval(expandSuffixes(expr)) / 100); } catch(e){} }
@@ -748,222 +587,71 @@ function action(type, val, _evt) {
     if (hasResult) { expr = val; hasResult = false; } else expr += val;
   }
   if (type === 'eq') { compute(); return; }
-
   tryLiveEval(); render();
 }
 
-// Expand suffix letters into their numeric value in an expression string
-// Wrap each expanded term in parens so 69k/6.9k \u2192 (69*1000)/(6.9*1000) = 10, not 10,000,000
-function expandSuffixes(e) {
-  return e
-    .replace(/(\d+(?:\.\d+)?)\s*Th/gi, (_, n) => '(' + n + '*1000)')
-    .replace(/(\d+(?:\.\d+)?)\s*k/gi,  (_, n) => '(' + n + '*1000)')
-    .replace(/(\d+(?:\.\d+)?)\s*M/g,   (_, n) => '(' + n + '*1000000)')
-    .replace(/(\d+(?:\.\d+)?)\s*B/g,   (_, n) => '(' + n + '*1000000000)')
-    .replace(/(\d+(?:\.\d+)?)\s*T/g,   (_, n) => '(' + n + '*1000000000000)');
-}
-
-function safeEval(e) {
-  let exp = e + ')'.repeat(Math.max(0, parenCount));
-  exp = exp.replace(/(\d)(Math\.)/g, '$1*$2');
-  return Function('"use strict"; return (' + exp + ')')();
-}
-
-function tryLiveEval() {
-  try {
-    if (expr && !/[\+\-\*\/\(]$/.test(expr.replace(/Th$/,'').replace(/[kKMBT]$/,''))) {
-      const r = safeEval(expandSuffixes(expr));
-      if (isFinite(r)) {
-        exprEl.textContent = prettify(expr);
-        resultEl.textContent = fmtNum(r);
-        resultEl.className = 'result-line';
-        showScaled(r); return;
-      }
-    }
-  } catch(e) {}
-  exprEl.textContent = '';
-  resultEl.textContent = expr || '0';
-  resultEl.className = 'result-line';
-  scaledEl.textContent = '';
-}
-
-let calcHistory = [];
-
-function compute() {
-  if (!expr) return;
-  try {
-    const r = safeEval(expandSuffixes(expr));
-    if (!isFinite(r)) throw 0;
-    const prettyExpr = prettify(expr);
-    exprEl.textContent = prettyExpr + ' =';
-    // Save to history
-    calcHistory.unshift({ expr: prettyExpr, result: r });
-    if (calcHistory.length > 50) calcHistory.pop();
-    renderHistory();
-    lastResult = r; expr = String(r); parenCount = 0; hasResult = true;
-    resultEl.textContent = fmtNum(r);
-    resultEl.className = 'result-line computed';
-    showScaled(r);
-  } catch(e) {
-    exprEl.textContent = prettify(expr);
-    resultEl.textContent = 'Error';
-    resultEl.className = 'result-line error';
-    scaledEl.textContent = '';
-    expr = ''; parenCount = 0;
-  }
-}
-
+// ============================================================
+// HISTORY
+// ============================================================
 function toggleHistory() {
-  const panel = document.getElementById('history-panel');
-  const toggle = document.getElementById('hist-toggle');
-  const open = panel.classList.toggle('open');
-  toggle.querySelector('span').textContent = open ? '\u25be HISTORY' : '\u25b8 HISTORY';
+  var panel = document.getElementById('history-panel');
+  var open = panel.classList.toggle('open');
+  document.getElementById('hist-label').textContent = (open ? '\u25be' : '\u25b8') + ' HISTORY';
 }
-
 function renderHistory() {
-  const panel = document.getElementById('history-panel');
-  const countEl = document.getElementById('hist-count');
-  if (calcHistory.length === 0) {
+  var panel = document.getElementById('history-panel');
+  var countEl = document.getElementById('hist-count');
+  if (!calcHistory.length) {
     countEl.style.display = 'none';
-    panel.innerHTML = '<div class="hist-empty">NO HISTORY YET</div>';
-    return;
+    panel.innerHTML = '<div class="hist-empty">NO HISTORY YET</div>'; return;
   }
   countEl.style.display = 'inline';
   countEl.textContent = calcHistory.length;
-  panel.innerHTML =
-    calcHistory.map((h, i) =>
-      `<div class="hist-item" onclick="loadHistory(${i})">
-        <span class="hist-expr">${h.expr}</span>
-        <span class="hist-result">${fmtNum(h.result)}</span>
-      </div>`
-    ).join('') +
-    `<button class="hist-clear" onclick="clearHistory()">\u2715 CLEAR HISTORY</button>`;
+  panel.innerHTML = calcHistory.map(function(h,i){
+    return '<div class="hist-item" onclick="loadHistory('+i+')">'
+      +'<span class="hist-expr">'+h.expr+'</span>'
+      +'<span class="hist-result">'+fmtNum(h.result)+'</span></div>';
+  }).join('') + '<button class="hist-clear" onclick="clearHistory()">x CLEAR HISTORY</button>';
 }
-
 function loadHistory(i) {
-  const h = calcHistory[i];
-  expr = String(h.result);
-  lastResult = h.result;
-  hasResult = true;
-  parenCount = 0;
+  var h = calcHistory[i];
+  expr = String(h.result); lastResult = h.result; hasResult = true; parenCount = 0;
   exprEl.textContent = h.expr + ' =';
   resultEl.textContent = fmtNum(h.result);
   resultEl.className = 'result-line computed';
   showScaled(h.result);
-  // close history panel
   document.getElementById('history-panel').classList.remove('open');
-  document.querySelector('#hist-toggle span').textContent = '\u25b8 HISTORY';
+  document.getElementById('hist-label').textContent = '\u25b8 HISTORY';
 }
+function clearHistory() { calcHistory = []; renderHistory(); }
 
-function clearHistory() {
-  calcHistory = [];
-  renderHistory();
-}
+// ============================================================
+// KEYBOARD
+// ============================================================
+document.addEventListener('keydown', function(e) {
+  if (document.getElementById('tab-ai').style.display === 'block') return;
+  if (document.activeElement === document.getElementById('ai-input')) return;
 
-function render() {
-  resultEl.textContent = expr || '0';
-  resultEl.className = 'result-line';
-  exprEl.textContent = '';
-  scaledEl.textContent = '';
-}
-
-function showScaled(n) {
-  if (!isFinite(n) || n === 0) { scaledEl.textContent = ''; return; }
-  const abs = Math.abs(n);
-  let label;
-  if (abs >= 1e12)      label = (n/1e12).toPrecision(6).replace(/\.?0+$/,'') + ' T  (Trillions)';
-  else if (abs >= 1e9)  label = (n/1e9).toPrecision(6).replace(/\.?0+$/,'')  + ' B  (Billions)';
-  else if (abs >= 1e6)  label = (n/1e6).toPrecision(6).replace(/\.?0+$/,'')  + ' M  (Millions)';
-  else if (abs >= 1e3)  label = (n/1e3).toPrecision(6).replace(/\.?0+$/,'')  + ' k  (Thousands)';
-  else label = '';
-  scaledEl.textContent = label;
-}
-
-function prettify(e) {
-  return e.replace(/Math\.sqrt\(/g,'\u221a(').replace(/Math\.cbrt\(/g,'\u221b(')
-    .replace(/Math\.log10\(/g,'log(').replace(/Math\.log\(/g,'ln(')
-    .replace(/Math\.exp\(/g,'e^(').replace(/Math\.sin\(/g,'sin(')
-    .replace(/Math\.cos\(/g,'cos(').replace(/Math\.tan\(/g,'tan(')
-    .replace(/Math\.PI/g,'\u03c0').replace(/\*\*/g,'^').replace(/\*/g,'\u00d7').replace(/\//g,'\u00f7');
-}
-
-let wholeMode = localStorage.getItem('wholeMode') === 'true';
-
-function applyWholeMode() {
-  const btn = document.getElementById('whole-btn');
-  btn.classList.toggle('on', wholeMode);
-  btn.title = wholeMode ? '1 decimal mode ON \u2014 click to turn off' : '1 decimal place mode';
-}
-
-function toggleWholeMode() {
-  wholeMode = !wholeMode;
-  localStorage.setItem('wholeMode', wholeMode);
-  applyWholeMode();
-  if (lastResult !== null) {
-    resultEl.textContent = fmtNum(lastResult);
-    showScaled(lastResult);
-  }
-}
-
-// Apply persisted state on load
-document.addEventListener('DOMContentLoaded', applyWholeMode);
-
-function fmtNum(n) {
-  if (wholeMode) return parseFloat(n.toFixed(1)).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-  if (Math.abs(n) >= 1e15) return n.toExponential(4);
-  if (!Number.isInteger(n) && Math.abs(n) < 1e10) return parseFloat(n.toPrecision(10)).toLocaleString('en-US');
-  return n.toLocaleString('en-US', { maximumFractionDigits: 10 });
-}
-
-function rippleEffect(e) {
-  if (!e || !e.currentTarget) return;
-  const btn = e.currentTarget;
-  const r = document.createElement('span');
-  r.className = 'ripple';
-  const rect = btn.getBoundingClientRect();
-  const size = Math.max(rect.width, rect.height);
-  r.style.cssText = `width:${size}px;height:${size}px;left:${(e.clientX||rect.left+rect.width/2)-rect.left-size/2}px;top:${(e.clientY||rect.top+rect.height/2)-rect.top-size/2}px`;
-  btn.appendChild(r);
-  setTimeout(() => r.remove(), 400);
-}
-
-// Keyboard
-document.addEventListener('keydown', e => {
-  // Skip if AI tab active or focus is in AI input
-  if (document.activeElement && document.activeElement.id === 'ai-input') return;
-  const aiTab = document.getElementById('tab-ai');
-  if (aiTab && aiTab.style.display === 'block') return;
-
-  const k = e.key;
-  const code = e.code || '';
-
+  var k = e.key, code = e.code || '';
   if ((k >= '0' && k <= '9') || (code.startsWith('Numpad') && k >= '0' && k <= '9')) {
     e.preventDefault(); action('num', k);
-  }
-  else if (k === '.' || code === 'NumpadDecimal') { e.preventDefault(); action('dot'); }
-  else if (k === '+' || code === 'NumpadAdd')     { e.preventDefault(); action('op', '+'); }
-  else if (k === '-' || code === 'NumpadSubtract'){ e.preventDefault(); action('op', '-'); }
-  else if (k === '*' || code === 'NumpadMultiply'){ e.preventDefault(); action('op', '*'); }
-  else if (k === '/' || code === 'NumpadDivide')  { e.preventDefault(); action('op', '/'); }
+  } else if (k === '.' || code === 'NumpadDecimal') { e.preventDefault(); action('dot'); }
+  else if (k === '+' || code === 'NumpadAdd')      { e.preventDefault(); action('op','+'); }
+  else if (k === '-' || code === 'NumpadSubtract') { e.preventDefault(); action('op','-'); }
+  else if (k === '*' || code === 'NumpadMultiply') { e.preventDefault(); action('op','*'); }
+  else if (k === '/' || code === 'NumpadDivide')   { e.preventDefault(); action('op','/'); }
   else if (k === 'Enter' || code === 'NumpadEnter' || k === '=') { e.preventDefault(); action('eq'); }
   else if (k === 'Backspace') { e.preventDefault(); action('backspace'); }
-  else if (k === 'Delete' || k === 'Escape') action('ac');
-  else if (k === '(') action('paren', '(');
-  else if (k === ')') action('paren', ')');
+  else if (k === 'Escape' || k === 'Delete') action('ac');
+  else if (k === '(') action('paren','(');
+  else if (k === ')') action('paren',')');
   else if (k === '%') action('pct');
 });
 
-// =================== TAB SWITCH ===================
-function switchTab(t) {
-  document.getElementById('tab-calc').style.display = t === 'calc' ? 'block' : 'none';
-  document.getElementById('tab-ai').style.display   = t === 'ai'   ? 'block' : 'none';
-  document.getElementById('t-calc').classList.toggle('active', t === 'calc');
-  document.getElementById('t-ai').classList.toggle('active',   t === 'ai');
-  if (t === 'ai') setTimeout(() => document.getElementById('ai-input').focus(), 50);
-}
-
-// =================== AI MATH (local, no API) ===================
-const WORD_NUMS = {
+// ============================================================
+// AI MATH (local, no API)
+// ============================================================
+var WORD_NUMS = {
   zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
   ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,
   sixteen:16,seventeen:17,eighteen:18,nineteen:19,twenty:20,
@@ -972,10 +660,10 @@ const WORD_NUMS = {
 };
 
 function wordsToNumber(str) {
-  const tokens = str.toLowerCase().trim().split(/\s+/);
-  let result = 0, current = 0;
-  for (const t of tokens) {
-    const n = WORD_NUMS[t];
+  var tokens = str.toLowerCase().trim().split(/\s+/);
+  var result = 0, current = 0;
+  for (var i = 0; i < tokens.length; i++) {
+    var n = WORD_NUMS[tokens[i]];
     if (n === undefined) return null;
     if (n === 100) current *= 100;
     else if (n >= 1000) { current = current || 1; result += current * n; current = 0; }
@@ -984,212 +672,168 @@ function wordsToNumber(str) {
   return result + current;
 }
 
-function expandSuffixesLocal(e) {
+function expandSuffixesAI(e) {
   return e
-    .replace(/(\d+(?:\.\d+)?)\s*Th/gi, (_,n) => '('+n+'*1000)')
-    .replace(/(\d+(?:\.\d+)?)\s*k/gi,  (_,n) => '('+n+'*1000)')
-    .replace(/(\d+(?:\.\d+)?)\s*M/g,   (_,n) => '('+n+'*1000000)')
-    .replace(/(\d+(?:\.\d+)?)\s*B/g,   (_,n) => '('+n+'*1000000000)')
-    .replace(/(\d+(?:\.\d+)?)\s*T/g,   (_,n) => '('+n+'*1000000000000)')
+    .replace(/(\d+(?:\.\d+)?)\s*Th/gi, function(_,n){ return '('+n+'*1000)'; })
+    .replace(/(\d+(?:\.\d+)?)\s*k/gi,  function(_,n){ return '('+n+'*1000)'; })
+    .replace(/(\d+(?:\.\d+)?)\s*M/g,   function(_,n){ return '('+n+'*1000000)'; })
+    .replace(/(\d+(?:\.\d+)?)\s*B/g,   function(_,n){ return '('+n+'*1000000000)'; })
+    .replace(/(\d+(?:\.\d+)?)\s*T/g,   function(_,n){ return '('+n+'*1000000000000)'; })
     .replace(/\^/g,'**');
 }
 
 function parseAndCompute(raw) {
-  let s = raw.trim();
+  var s = raw.trim().replace(/^(what\s+is|calculate|compute|solve|find|evaluate)\s*/i,'');
 
-  // Strip filler words
-  s = s.replace(/^(what\s+is|calculate|compute|solve|find|evaluate)\s*/i, '');
-
-  // Percent of: "5% of 2M"
-  const pctOf = s.match(/(\d+(?:\.\d+)?)\s*%\s*of\s*(.+)/i);
+  // pct of
+  var pctOf = s.match(/(\d+(?:\.\d+)?)\s*%\s*of\s*(.+)/i);
   if (pctOf) {
-    const base = parseAndCompute(pctOf[2]);
-    if (base !== null) return (parseFloat(pctOf[1]) / 100) * base.val;
-    return null;
+    var base = parseAndCompute(pctOf[2]);
+    if (base !== null) return {val: (parseFloat(pctOf[1])/100)*base.val, expr: pctOf[1]+'% of '+pctOf[2]};
   }
 
-  // Try suffix math directly
-  const expanded = expandSuffixesLocal(s);
+  // direct math
+  var expanded = expandSuffixesAI(s);
   try {
-    const r = Function('"use strict"; return (' + expanded + ')')();
-    if (isFinite(r)) return { val: r, expr: s };
+    var r = Function('"use strict"; return (' + expanded + ')')();
+    if (isFinite(r)) return {val: r, expr: s};
   } catch(e) {}
 
-  // Try converting word numbers one side at a time around operators
-  const opMatch = s.match(/^(.+?)\s*(divided\s+by|multiplied\s+by|plus|minus|times|over|\+|-|\*|x|\/|mod)\s*(.+)$/i);
+  // word-op
+  var opMatch = s.match(/^(.+?)\s*(divided\s+by|multiplied\s+by|plus|minus|times|over|\+|-|\*|x|\/|mod)\s*(.+)$/i);
   if (opMatch) {
-    const opMap = { 'divided by':'/','over':'/','multiplied by':'*','times':'*','x':'*','plus':'+','minus':'-','mod':'%' };
-    let left = opMatch[1].trim(), op = opMatch[2].trim().toLowerCase(), right = opMatch[3].trim();
+    var opMap = {'divided by':'/','over':'/','multiplied by':'*','times':'*','x':'*','plus':'+','minus':'-','mod':'%'};
+    var left = opMatch[1].trim(), op = opMatch[2].trim().toLowerCase(), right = opMatch[3].trim();
     op = opMap[op] || op;
-    const lNum = wordsToNumber(left) ?? parseAndCompute(left)?.val;
-    const rNum = wordsToNumber(right) ?? parseAndCompute(right)?.val;
+    var lNum = wordsToNumber(left); if (lNum === null) { var lt = parseAndCompute(left); if(lt) lNum=lt.val; }
+    var rNum = wordsToNumber(right); if (rNum === null) { var rt = parseAndCompute(right); if(rt) rNum=rt.val; }
     if (lNum !== null && rNum !== null) {
-      const r = Function('"use strict"; return (' + lNum + op + rNum + ')')();
-      if (isFinite(r)) return { val: r, expr: lNum + ' ' + op + ' ' + rNum };
+      var res = Function('"use strict"; return ('+lNum+op+rNum+')')();
+      if (isFinite(res)) return {val:res, expr:lNum+' '+op+' '+rNum};
     }
   }
 
-  // Pure word number
-  const wn = wordsToNumber(s);
-  if (wn !== null) return { val: wn, expr: s };
+  // pure word number
+  var wn = wordsToNumber(s);
+  if (wn !== null) return {val:wn, expr:s};
 
   return null;
 }
 
-function buildReply(result, input) {
-  const val = result.val;
-  let out = '= ' + fmtNum(val);
-  const abs = Math.abs(val);
-  if      (abs >= 1e12) out += '\n\u2248 ' + (val/1e12).toPrecision(5).replace(/\.?0+$/,'') + ' T';
-  else if (abs >= 1e9)  out += '\n\u2248 ' + (val/1e9).toPrecision(5).replace(/\.?0+$/,'')  + ' B';
-  else if (abs >= 1e6)  out += '\n\u2248 ' + (val/1e6).toPrecision(5).replace(/\.?0+$/,'')  + ' M';
-  else if (abs >= 1e3)  out += '\n\u2248 ' + (val/1e3).toPrecision(5).replace(/\.?0+$/,'')  + ' k';
+function solveWordProblem(s) {
+  var lower = s.toLowerCase();
+
+  // Age ago \u2014 very flexible: grab first number, then "N years ago/back/before"
+  var ageAgo = lower.match(/(\d+(?:\.\d+)?)[^\d]+(\d+(?:\.\d+)?)\s*years?\s*(?:ago|back|before|earlier)/);
+  if (ageAgo) {
+    var now = parseFloat(ageAgo[1]), ago = parseFloat(ageAgo[2]);
+    return {val: now - ago, note: 'Age '+now+' - '+ago+' years ago'};
+  }
+
+  // Age future: "X is N, how old will she be in M years"
+  var ageFuture = lower.match(/(\d+(?:\.\d+)?)[^\d]+(\d+(?:\.\d+)?)\s*years?\s*(?:from|later|after|hence)/);
+  if (ageFuture) {
+    var now2 = parseFloat(ageFuture[1]), add = parseFloat(ageFuture[2]);
+    return {val: now2 + add, note: 'Age '+now2+' + '+add+' years'};
+  }
+
+  // Total / combined
+  if (/total|together|combined|altogether|sum|all of them/.test(lower)) {
+    var nums = Array.from(lower.matchAll(/(\d+(?:\.\d+)?)/g)).map(function(m){return parseFloat(m[1]);});
+    if (nums.length >= 2) return {val: nums.reduce(function(a,b){return a+b;},0), note: nums.join(' + ')};
+  }
+
+  // Left / remaining after subtraction
+  if (/left|remain|after|used|spent|ate|sold|gave|give|lost|taken/.test(lower)) {
+    var nums2 = Array.from(lower.matchAll(/(\d+(?:\.\d+)?)/g)).map(function(m){return parseFloat(m[1]);});
+    if (nums2.length >= 2) return {val: nums2[0]-nums2[1], note: nums2[0]+' - '+nums2[1]};
+  }
+
+  // Rate x time
+  var rateM = lower.match(/(\d+(?:\.\d+)?)\s*(?:per|every|each|a)\s*(?:hour|day|week|month|year|minute|second)/);
+  var timeM = lower.match(/(?:in|for|over|after)\s+(\d+(?:\.\d+)?)\s*(?:hours?|days?|weeks?|months?|years?|minutes?|seconds?)/);
+  if (rateM && timeM) {
+    var rate = parseFloat(rateM[1]), time = parseFloat(timeM[1]);
+    return {val: rate*time, note: rate+' x '+time};
+  }
+
+  // Split among
+  var splitM = lower.match(/(?:split|divide|share|distributed?)\s*(\d+(?:\.\d+)?).*?(?:among|between|with|into|by|to)\s*(\d+)/);
+  if (splitM) return {val: parseFloat(splitM[1])/parseFloat(splitM[2]), note: splitM[1]+' / '+splitM[2]};
+
+  // Unit conversion
+  var unitIn = lower.match(/how many\s+(\w+)\s+in\s+(\d+(?:\.\d+)?)\s*(\w+)/);
+  var unitMap = {'minutes-hours':60,'seconds-minutes':60,'seconds-hours':3600,'hours-days':24,'days-weeks':7,'months-years':12,'cm-meters':100,'mm-cm':10};
+  if (unitIn) {
+    var key = unitIn[1]+'-'+unitIn[3];
+    if (unitMap[key]) return {val: parseFloat(unitIn[2])*unitMap[key], note: unitIn[2]+' '+unitIn[3]+' x '+unitMap[key]};
+  }
+
+  return null;
+}
+
+var CHAT_REPLIES = {
+  'hello':        'Hey! Type any math or question.',
+  'hi':           'Hi! What do you want to calculate?',
+  'hey':          'Hey! Give me a calculation.',
+  'thanks':       'No problem! Try another one.',
+  'thank you':    'Anytime!',
+  'wow':          'I know right! Try something harder.',
+  'amazing':      'Thanks! Give me another one.',
+  'cool':         'Glad you think so!',
+  'what can you do': 'I solve math: 79M/20k, sqrt(144), 2^10, word problems like "if X is 14 now how old was she 2 years ago", percentages, and more!',
+  'help':         'Type any math expression or word problem. I handle k/M/B/T suffixes, word numbers, powers, roots and more.'
+};
+
+function buildReply(val, note) {
+  var out = (note ? note + '\n' : '') + '= ' + fmtNum(val);
+  var a = Math.abs(val);
+  if      (a >= 1e12) out += '\n~ ' + (val/1e12).toPrecision(5).replace(/\.?0+$/,'') + ' T';
+  else if (a >= 1e9)  out += '\n~ ' + (val/1e9).toPrecision(5).replace(/\.?0+$/,'')  + ' B';
+  else if (a >= 1e6)  out += '\n~ ' + (val/1e6).toPrecision(5).replace(/\.?0+$/,'')  + ' M';
+  else if (a >= 1e3)  out += '\n~ ' + (val/1e3).toPrecision(5).replace(/\.?0+$/,'')  + ' k';
   return out;
 }
 
-const CHAT_REPLIES = {
-  hello:    "Hey! Type any math expression and I'll solve it instantly.",
-  hi:       "Hi! Give me a calculation to solve.",
-  hey:      "Hey! What do you want to calculate?",
-  thanks:   "No problem! Give me another one.",
-  "thank you": "Anytime!",
-  wow:      "I know right! Math is cool.",
-  amazing:  "Thanks! Try another one.",
-  cool:     "Glad you think so! Try something harder.",
-  "what can you do": "I solve math: 79M/20k, sqrt(144), 2^10, five hundred divided by three, percentages, and more!",
-  help:     'Just type any math \u2014 I handle k/M/B/T suffixes, word numbers, powers, square roots and standard arithmetic.'
-};
-
-function getChatReply(s) {
-  const lower = s.toLowerCase().trim().replace(/[!?.]/g,'');
-  return CHAT_REPLIES[lower] || null;
-}
-
-let aiMsgs = [];
-function addMsg(role, text, isError) {
-  const empty = document.getElementById('empty-state');
+function addMsg(role, text, isErr) {
+  var empty = document.getElementById('empty-state');
   if (empty) empty.remove();
-  const wrap = document.createElement('div');
-  wrap.className = 'msg ' + role;
-  const label = document.createElement('div');
-  label.className = 'msg-label';
+  var wrap = document.createElement('div'); wrap.className = 'msg ' + role;
+  var label = document.createElement('div'); label.className = 'msg-label';
   label.textContent = role === 'user' ? 'YOU' : 'CALC';
-  const bubble = document.createElement('div');
-  bubble.className = 'msg-bubble' + (isError ? ' error-bubble' : '');
+  var bubble = document.createElement('div');
+  bubble.className = 'msg-bubble' + (isErr ? ' err' : '');
   bubble.textContent = text;
-  wrap.appendChild(label);
-  wrap.appendChild(bubble);
-  document.getElementById('chat-area').appendChild(wrap);
-  document.getElementById('chat-area').scrollTop = 9999;
-}
-
-// \u2500\u2500 Word problem solver \u2500\u2500
-function solveWordProblem(s) {
-  const lower = s.toLowerCase();
-
-  // "X is/was/has N [unit], Y is/was/has M [unit], how many/what is ..."
-  // Pattern: extract all numbers + context, then figure out the operation
-
-  // "if X is AGE now, how many years [ago/until] was/will he be AGE2?"
-  const ageAgo = lower.match(/(?:is|am|are)\s+(\d+)\s+(?:years?\s+old\s+)?now.*?(\d+)\s+years?\s+ago/);
-  if (ageAgo) {
-    const now = parseFloat(ageAgo[1]), ago = parseFloat(ageAgo[2]);
-    const ans = now - ago;
-    return { val: ans, note: "Age " + now + " minus " + ago + " years ago" };
-  }
-  const ageUntil = lower.match(/(?:is|am|are)\s+(\d+).*?(?:will|be)\s+(\d+)/);
-  if (ageUntil) {
-    const now = parseFloat(ageUntil[1]), future = parseFloat(ageUntil[2]);
-    const ans = future - now;
-    return { val: ans, note: "Years until age " + future };
-  }
-
-  // "X has N apples, Y has M apples, how many total/together/combined?"
-  const totalMatch = lower.match(/(?:total|together|combined|altogether|sum|all)/);
-  const nums = [...lower.matchAll(/(\d+(?:\.\d+)?)/g)].map(m => parseFloat(m[1]));
-  if (totalMatch && nums.length >= 2) {
-    const ans = nums.reduce((a,b) => a+b, 0);
-    return { val: ans, note: nums.join(' + ') };
-  }
-
-  // "X has N, gives/loses/spent/ate M, how many left/remain/remaining?"
-  const leftMatch = lower.match(/(?:left|remain|remaining|after|has left|have left)/);
-  const giveMatch = lower.match(/(?:gave?|give?|los[et]|spent|used|ate?|sold|removed?|taken?|subtract)/);
-  if (leftMatch && giveMatch && nums.length >= 2) {
-    const ans = nums[0] - nums[1];
-    return { val: ans, note: nums[0] + ' - ' + nums[1] };
-  }
-
-  // "X earns/makes/costs/pays N per/every M [unit], how many in Y [unit]?"
-  const rateMatch = lower.match(/(\d+(?:\.\d+)?)\s*(?:per|every|each|a)\s*(?:hour|day|week|month|year|minute|second)/);
-  const timeMatch = lower.match(/(?:in|for|over|after)\s+(\d+(?:\.\d+)?)\s*(?:hours?|days?|weeks?|months?|years?|minutes?|seconds?)/);
-  if (rateMatch && timeMatch) {
-    const rate = parseFloat(rateMatch[1]), time = parseFloat(timeMatch[1]);
-    return { val: rate * time, note: rate + ' x ' + time };
-  }
-
-  // "split/divide/share N among/between/with M people"
-  const splitMatch = lower.match(/(?:split|divide|share|distributed?)\s*(\d+(?:\.\d+)?).*?(?:among|between|with|into|by|to)\s*(\d+)/);
-  if (splitMatch) {
-    const total = parseFloat(splitMatch[1]), parts = parseFloat(splitMatch[2]);
-    return { val: total / parts, note: total + ' / ' + parts };
-  }
-
-  // "N% of M" or "what is N percent of M"
-  const pctMatch = lower.match(/(\d+(?:\.\d+)?)\s*(?:%|percent(?:age)?)\s*(?:of)?\s*(\d+(?:\.\d+)?[kKMBT]?)/);
-  if (pctMatch) {
-    const pct = parseFloat(pctMatch[1]) / 100;
-    const base = parseAndCompute(pctMatch[2]);
-    if (base) return { val: pct * base.val, note: pctMatch[1] + '% of ' + pctMatch[2] };
-  }
-
-  // "how many X in Y" \u2014 unit conversion style: "how many minutes in 3 hours"
-  const unitIn = lower.match(/how many\s+(\w+)\s+in\s+(\d+(?:\.\d+)?)\s*(\w+)/);
-  const unitMap = {
-    'minutes in hours': 60, 'seconds in minutes': 60, 'seconds in hours': 3600,
-    'hours in days': 24, 'days in weeks': 7, 'months in years': 12,
-    'cm in meters': 100, 'mm in cm': 10, 'km in miles': 0.621371,
-    'miles in km': 1.60934, 'kg in pounds': 2.20462, 'pounds in kg': 0.453592,
-  };
-  if (unitIn) {
-    const key = unitIn[1] + ' in ' + unitIn[3];
-    const factor = unitMap[key];
-    if (factor) return { val: parseFloat(unitIn[2]) * factor, note: unitIn[2] + ' ' + unitIn[3] + ' x ' + factor };
-  }
-
-  return null;
+  wrap.appendChild(label); wrap.appendChild(bubble);
+  var ca = document.getElementById('chat-area');
+  ca.appendChild(wrap); ca.scrollTop = 99999;
 }
 
 function sendAI() {
-  const input = document.getElementById('ai-input');
-  const btn = document.getElementById('ai-send-btn');
-  const raw = input.value.trim();
+  var input = document.getElementById('ai-input');
+  var btn   = document.getElementById('ai-send-btn');
+  var raw   = input.value.trim();
   if (!raw) return;
-  input.value = '';
-  btn.disabled = true;
+  input.value = ''; btn.disabled = true;
   addMsg('user', raw);
 
-  setTimeout(() => {
-    // 1. Chat?
-    const chat = getChatReply(raw);
-    if (chat) { addMsg('ai', chat); btn.disabled = false; return; }
+  setTimeout(function() {
+    var lower = raw.toLowerCase().trim().replace(/[!?.]/g,'');
 
-    // 2. Direct math
-    const result = parseAndCompute(raw);
-    if (result !== null) { addMsg('ai', buildReply(result, raw)); btn.disabled = false; return; }
+    // Chat?
+    if (CHAT_REPLIES[lower]) { addMsg('ai', CHAT_REPLIES[lower]); btn.disabled=false; return; }
 
-    // 3. Word problem
-    const wp = solveWordProblem(raw);
-    if (wp !== null) {
-      let out = (wp.note ? wp.note + '\n' : '') + buildReply(wp, raw);
-      addMsg('ai', out);
-      btn.disabled = false;
-      return;
-    }
+    // Direct math
+    var r = parseAndCompute(raw);
+    if (r !== null) { addMsg('ai', buildReply(r.val, null)); btn.disabled=false; return; }
 
-    addMsg('ai', "Hmm, couldn't figure that out. Try: 79M/20k, sqrt(144), \"if X is 18 now, how old was he 5 years ago\"", true);
+    // Word problem
+    var wp = solveWordProblem(raw);
+    if (wp !== null) { addMsg('ai', buildReply(wp.val, wp.note)); btn.disabled=false; return; }
+
+    addMsg('ai', "Couldn't figure that out. Try: 79M/20k, sqrt(144), or \"if X is 14 now, how old was she 2 years ago\"", true);
     btn.disabled = false;
-  }, 120);
+  }, 100);
 }
 </script>
 </body>
