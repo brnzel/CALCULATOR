@@ -696,8 +696,8 @@ function reset() {
   scaledEl.textContent = '';
 }
 
-function action(type, val) {
-  rippleEffect(event);
+function action(type, val, _evt) {
+  try { rippleEffect(_evt); } catch(e) {}
   if (type === 'ac') { reset(); return; }
 
   if (type === 'backspace') {
@@ -930,8 +930,9 @@ function rippleEffect(e) {
 // Keyboard
 document.addEventListener('keydown', e => {
   // Skip if AI tab active or focus is in AI input
-  if (document.getElementById('tab-ai') && document.getElementById('tab-ai').style.display !== 'none') return;
   if (document.activeElement && document.activeElement.id === 'ai-input') return;
+  const aiTab = document.getElementById('tab-ai');
+  if (aiTab && aiTab.style.display === 'block') return;
 
   const k = e.key;
   const code = e.code || '';
