@@ -88,39 +88,8 @@
     opacity: 0.5;
   }
 
-  /* TABS */
-  .tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-  }
-  .tab {
-    flex: 1;
-    padding: 11px 8px;
-    background: transparent;
-    border: none;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    border-right: 1px solid var(--border);
-    position: relative;
-  }
-  .tab:last-child { border-right: none; }
-  .tab.active { color: var(--accent); }
-  .tab.active::after {
-    content:'';
-    position:absolute; bottom:0; left:15%; right:15%; height:2px;
-    background: var(--accent);
-    border-radius: 2px 2px 0 0;
-  }
-  .tab:hover:not(.active) { color: var(--text); }
-
   /* ===== CALC TAB ===== */
   #tab-calc { display: block; }
-  #tab-ai   { display: none; }
 
   /* Display */
   .display {
@@ -275,145 +244,6 @@
   .mode-btn:last-child { border-right: none; }
   .mode-btn.active { color: var(--accent3); background: rgba(105,255,71,0.04); }
   .mode-btn:hover:not(.active) { color: var(--text); }
-
-  /* ===== AI TAB ===== */
-  .ai-panel {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-height: 480px;
-  }
-  .ai-hint {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-    line-height: 1.6;
-    background: rgba(0,229,255,0.04);
-    border: 1px solid rgba(0,229,255,0.1);
-    border-radius: 8px;
-    padding: 10px 12px;
-  }
-  .ai-hint strong { color: var(--accent); font-family: 'Share Tech Mono', monospace; }
-
-  .chat-area {
-    flex: 1;
-    background: var(--display-bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px;
-    overflow-y: auto;
-    min-height: 300px;
-    max-height: 340px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .chat-area::-webkit-scrollbar { width: 3px; }
-  .chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  .msg {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    max-width: 90%;
-  }
-  .msg.user { align-self: flex-end; align-items: flex-end; }
-  .msg.ai   { align-self: flex-start; align-items: flex-start; }
-
-  .msg-bubble {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    line-height: 1.5;
-    word-break: break-word;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-  }
-  .msg.user .msg-bubble {
-    background: rgba(0,229,255,0.1);
-    border: 1px solid rgba(0,229,255,0.25);
-    color: var(--accent);
-    border-radius: 10px 10px 2px 10px;
-  }
-  .msg.ai .msg-bubble {
-    background: rgba(105,255,71,0.06);
-    border: 1px solid rgba(105,255,71,0.15);
-    color: var(--text);
-    border-radius: 10px 10px 10px 2px;
-  }
-  .msg.ai .msg-bubble.error-bubble {
-    background: rgba(255,64,129,0.06);
-    border-color: rgba(255,64,129,0.2);
-    color: var(--accent2);
-  }
-  .msg-label {
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    font-weight: 700;
-    font-family: 'Rajdhani', sans-serif;
-    padding: 0 4px;
-  }
-  .typing-dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    background: var(--accent3);
-    border-radius: 50%;
-    animation: blink 1s infinite;
-    margin: 0 1px;
-  }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes blink { 0%,80%,100% { opacity:0.2; } 40% { opacity:1; } }
-
-  .ai-input-row {
-    display: flex;
-    gap: 8px;
-  }
-  .ai-input {
-    flex: 1;
-    background: var(--display-bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .ai-input::placeholder { color: var(--muted); }
-  .ai-input:focus { border-color: rgba(0,229,255,0.4); }
-
-  .ai-send {
-    padding: 10px 16px;
-    background: var(--accent);
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.12s;
-  }
-  .ai-send:hover { background: #33eaff; }
-  .ai-send:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  .empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    gap: 8px;
-    opacity: 0.35;
-  }
-  .empty-state svg { width: 32px; height: 32px; }
-  .empty-state p { font-size: 11px; letter-spacing: 1px; font-weight: 600; }
 
   /* HISTORY */
   .history-toggle {
@@ -578,6 +408,91 @@
     flex-shrink: 0;
     display: inline-block;
   }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    flex: 1; padding: 11px 8px;
+    background: transparent; border: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+    color: var(--muted); cursor: pointer; transition: all 0.15s;
+    border-right: 1px solid var(--border); position: relative;
+  }
+  .tab:last-child { border-right: none; }
+  .tab.active { color: var(--accent); }
+  .tab.active::after {
+    content:''; position:absolute; bottom:0; left:15%; right:15%; height:2px;
+    background: var(--accent); border-radius: 2px 2px 0 0;
+  }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  /* AI PANEL */
+  .ai-panel { padding:14px; display:flex; flex-direction:column; gap:10px; min-height:480px; }
+  .ai-hint {
+    font-size:11px; color:var(--muted); letter-spacing:0.5px; line-height:1.6;
+    background:rgba(0,229,255,0.04); border:1px solid rgba(0,229,255,0.1);
+    border-radius:8px; padding:10px 12px;
+  }
+  .ai-hint strong { color:var(--accent); font-family:'Share Tech Mono',monospace; }
+  .chat-area {
+    flex:1; background:var(--display-bg); border:1px solid var(--border);
+    border-radius:10px; padding:12px; overflow-y:auto;
+    min-height:300px; max-height:320px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .chat-area::-webkit-scrollbar { width:3px; }
+  .chat-area::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+  .msg { display:flex; flex-direction:column; gap:3px; max-width:92%; }
+  .msg.user { align-self:flex-end; align-items:flex-end; }
+  .msg.ai   { align-self:flex-start; align-items:flex-start; }
+  .msg-label { font-size:9px; letter-spacing:1.5px; color:var(--muted); font-weight:700; padding:0 4px; }
+  .msg-bubble {
+    font-family:'Share Tech Mono',monospace; font-size:12px;
+    padding:8px 12px; border-radius:10px; line-height:1.6;
+    word-break:break-word; white-space:pre-wrap; overflow-wrap:anywhere;
+  }
+  .msg.user .msg-bubble {
+    background:rgba(0,229,255,0.1); border:1px solid rgba(0,229,255,0.25);
+    color:var(--accent); border-radius:10px 10px 2px 10px;
+  }
+  .msg.ai .msg-bubble {
+    background:rgba(105,255,71,0.06); border:1px solid rgba(105,255,71,0.15);
+    color:var(--text); border-radius:10px 10px 10px 2px;
+  }
+  .msg.ai .msg-bubble.error-bubble {
+    background:rgba(255,64,129,0.06); border-color:rgba(255,64,129,0.2); color:var(--accent2);
+  }
+  .typing-dot {
+    display:inline-block; width:6px; height:6px; background:var(--accent3);
+    border-radius:50%; animation:blink 1s infinite; margin:0 2px;
+  }
+  .typing-dot:nth-child(2){animation-delay:0.2s}
+  .typing-dot:nth-child(3){animation-delay:0.4s}
+  @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+  .ai-input-row { display:flex; gap:8px; }
+  .ai-input {
+    flex:1; background:var(--display-bg); border:1px solid var(--border);
+    border-radius:8px; padding:10px 14px;
+    font-family:'Share Tech Mono',monospace; font-size:13px;
+    color:var(--text); outline:none; transition:border-color 0.15s;
+  }
+  .ai-input::placeholder { color:var(--muted); }
+  .ai-input:focus { border-color:rgba(0,229,255,0.4); }
+  .ai-send {
+    padding:10px 18px; background:var(--accent); color:#000; border:none;
+    border-radius:8px; font-family:'Rajdhani',sans-serif; font-size:13px;
+    font-weight:700; letter-spacing:1px; cursor:pointer; transition:all 0.12s;
+  }
+  .ai-send:hover { background:#33eaff; }
+  .ai-send:disabled { opacity:0.4; cursor:not-allowed; }
+  .empty-state {
+    display:flex; align-items:center; justify-content:center;
+    height:100%; opacity:0.3; font-size:11px; letter-spacing:2px; font-weight:700;
+  }
 </style>
 </head>
 <body>
@@ -585,8 +500,8 @@
 
   <!-- MAIN TABS -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('calc')" id="t-calc">CALCULATOR</button>
-    <button class="tab" onclick="switchTab('ai')" id="t-ai">✦ AI INPUT</button>
+    <button class="tab active" id="t-calc" onclick="switchTab('calc')">CALCULATOR</button>
+    <button class="tab" id="t-ai" onclick="switchTab('ai')">✦ AI MATH</button>
   </div>
 
   <!-- ===== CALC TAB ===== -->
@@ -699,32 +614,30 @@
       <span class="hist-count" id="hist-count" style="display:none"></span>
     </div>
     <div class="history-panel" id="history-panel"></div>
-  </div>
+  </div></div>
 
-  <!-- ===== AI TAB ===== -->
-  <div id="tab-ai">
-    <div class="ai-panel">
-      <div class="ai-hint">
-        Ask anything — math, words, or chat.<br>
-        <strong>40M / 20k</strong> &nbsp;·&nbsp; <strong>five hundred divided by three</strong> &nbsp;·&nbsp; <strong>what is 7% of 2B</strong> &nbsp;·&nbsp; <strong>hello!</strong>
-      </div>
-
-      <div class="chat-area" id="chat-area">
-        <div class="empty-state" id="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
-          </svg>
-          <p>TYPE A CALCULATION ABOVE</p>
-        </div>
-      </div>
-
-      <div class="ai-input-row">
-        <input class="ai-input" id="ai-input" placeholder="e.g. 79M / 20k + 500Th" onkeydown="if(event.key==='Enter') sendAI()" />
-        <button class="ai-send" id="ai-send-btn" onclick="sendAI()">ASK</button>
       </div>
     </div>
   </div>
 
+  <!-- ===== AI TAB ===== -->
+  <div id="tab-ai" style="display:none">
+    <div class="ai-panel">
+      <div class="ai-hint">
+        Type any math — plain english or symbols.<br>
+        <strong>79M / 20k</strong> &nbsp;·&nbsp; <strong>sqrt(144)</strong> &nbsp;·&nbsp; <strong>five hundred / 3</strong> &nbsp;·&nbsp; <strong>2^10</strong>
+      </div>
+      <div class="chat-area" id="chat-area">
+        <div class="empty-state" id="empty-state">
+          <p>TYPE A CALCULATION BELOW</p>
+        </div>
+      </div>
+      <div class="ai-input-row">
+        <input class="ai-input" id="ai-input" placeholder="e.g. 40M / 20k" onkeydown="if(event.key==='Enter') sendAI()" autocomplete="off"/>
+        <button class="ai-send" id="ai-send-btn" onclick="sendAI()">GO</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -736,12 +649,7 @@ const resultEl  = document.getElementById('result');
 const exprEl    = document.getElementById('expr');
 const scaledEl  = document.getElementById('scaled');
 
-function switchTab(t) {
-  document.getElementById('tab-calc').style.display = t === 'calc' ? 'block' : 'none';
-  document.getElementById('tab-ai').style.display   = t === 'ai'   ? 'block' : 'none';
-  document.getElementById('t-calc').classList.toggle('active', t === 'calc');
-  document.getElementById('t-ai').classList.toggle('active', t === 'ai');
-}
+
 
 function setTheme(t) {
   document.querySelector('.calc-wrapper').setAttribute('data-theme', t);
@@ -1020,142 +928,182 @@ function rippleEffect(e) {
 
 // Keyboard
 document.addEventListener('keydown', e => {
-  // Only fire on calc tab, and ignore if user is typing in AI input field
-  const aiTabActive = document.getElementById('t-ai').classList.contains('active');
-  if (aiTabActive) return;
-  if (document.activeElement === document.getElementById('ai-input')) return;
+  // Skip if AI tab active or focus is in AI input
+  if (document.getElementById('tab-ai') && document.getElementById('tab-ai').style.display !== 'none') return;
+  if (document.activeElement && document.activeElement.id === 'ai-input') return;
 
   const k = e.key;
+  const code = e.code || '';
 
-  // Digits \u2014 normal and numpad
-  if ((k >= '0' && k <= '9') || (k >= 'Numpad0' && k <= 'Numpad9')) {
-    action('num', k.replace('Numpad',''));
+  if ((k >= '0' && k <= '9') || (code.startsWith('Numpad') && k >= '0' && k <= '9')) {
+    e.preventDefault(); action('num', k);
   }
-  else if (k === '.' || k === 'NumpadDecimal') action('dot');
-  else if (k === '+' || k === 'NumpadAdd')      action('op', '+');
-  else if (k === '-' || k === 'NumpadSubtract') action('op', '-');
-  else if (k === '*' || k === 'NumpadMultiply') action('op', '*');
-  else if (k === '/' || k === 'NumpadDivide')   { e.preventDefault(); action('op', '/'); }
-  else if (k === 'Enter' || k === 'NumpadEnter' || k === '=') { e.preventDefault(); action('eq'); }
-  else if (k === 'Backspace') action('backspace');
+  else if (k === '.' || code === 'NumpadDecimal') { e.preventDefault(); action('dot'); }
+  else if (k === '+' || code === 'NumpadAdd')     { e.preventDefault(); action('op', '+'); }
+  else if (k === '-' || code === 'NumpadSubtract'){ e.preventDefault(); action('op', '-'); }
+  else if (k === '*' || code === 'NumpadMultiply'){ e.preventDefault(); action('op', '*'); }
+  else if (k === '/' || code === 'NumpadDivide')  { e.preventDefault(); action('op', '/'); }
+  else if (k === 'Enter' || code === 'NumpadEnter' || k === '=') { e.preventDefault(); action('eq'); }
+  else if (k === 'Backspace') { e.preventDefault(); action('backspace'); }
   else if (k === 'Delete' || k === 'Escape') action('ac');
   else if (k === '(') action('paren', '(');
   else if (k === ')') action('paren', ')');
   else if (k === '%') action('pct');
 });
 
-// =================== AI CHAT ===================
-const chatArea  = document.getElementById('chat-area');
-const aiInput   = document.getElementById('ai-input');
-const aiSendBtn = document.getElementById('ai-send-btn');
-let aiMessages  = [];
+// =================== TAB SWITCH ===================
+function switchTab(t) {
+  document.getElementById('tab-calc').style.display = t === 'calc' ? 'block' : 'none';
+  document.getElementById('tab-ai').style.display   = t === 'ai'   ? 'block' : 'none';
+  document.getElementById('t-calc').classList.toggle('active', t === 'calc');
+  document.getElementById('t-ai').classList.toggle('active',   t === 'ai');
+  if (t === 'ai') setTimeout(() => document.getElementById('ai-input').focus(), 50);
+}
 
-const AI_SYSTEM = `You are CalcAI, a calculator assistant.
+// =================== AI MATH (local, no API) ===================
+const WORD_NUMS = {
+  zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
+  ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,
+  sixteen:16,seventeen:17,eighteen:18,nineteen:19,twenty:20,
+  thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90,
+  hundred:100,thousand:1000,million:1e6,billion:1e9,trillion:1e12
+};
 
-RULE 1 \u2014 MATH INPUT (numbers, expressions, word numbers, suffix math):
-Reply with ONLY these lines, nothing else, no commentary, no filler phrases, no restating the question:
-= [exact decimal result, e.g. 1.611]
-\u2248 [scaled form ONLY if result >= 1000, e.g. 1.2 M or 3.95 k \u2014 skip this line if result < 1000]
+function wordsToNumber(str) {
+  const tokens = str.toLowerCase().trim().split(/\s+/);
+  let result = 0, current = 0;
+  for (const t of tokens) {
+    const n = WORD_NUMS[t];
+    if (n === undefined) return null;
+    if (n === 100) current *= 100;
+    else if (n >= 1000) { current = current || 1; result += current * n; current = 0; }
+    else current += n;
+  }
+  return result + current;
+}
 
-Do NOT repeat or restate the expression. Do NOT add any extra lines. Just the = line, and the \u2248 line if needed.
+function expandSuffixesLocal(e) {
+  return e
+    .replace(/(\d+(?:\.\d+)?)\s*Th/gi, (_,n) => '('+n+'*1000)')
+    .replace(/(\d+(?:\.\d+)?)\s*k/gi,  (_,n) => '('+n+'*1000)')
+    .replace(/(\d+(?:\.\d+)?)\s*M/g,   (_,n) => '('+n+'*1000000)')
+    .replace(/(\d+(?:\.\d+)?)\s*B/g,   (_,n) => '('+n+'*1000000000)')
+    .replace(/(\d+(?:\.\d+)?)\s*T/g,   (_,n) => '('+n+'*1000000000000)')
+    .replace(/\^/g,'**');
+}
 
-RULE 2 \u2014 SHORTHAND SCALE:
-k/Th = \u00d71,000 | M = \u00d71,000,000 | B = \u00d71,000,000,000 | T = \u00d71,000,000,000,000
-Always show exact decimal (166.667 not 167). Always show scaled form if >= 1,000.
+function parseAndCompute(raw) {
+  let s = raw.trim();
 
-RULE 3 \u2014 WORD NUMBERS:
-"five hundred divided by three" \u2192 compute 500/3, output as per RULE 1.
+  // Strip filler words
+  s = s.replace(/^(what\s+is|calculate|compute|solve|find|evaluate)\s*/i, '');
 
-RULE 4 \u2014 CASUAL CHAT (greetings, reactions, questions about you):
-Reply naturally in 1-2 short sentences. No markdown.
+  // Percent of: "5% of 2M"
+  const pctOf = s.match(/(\d+(?:\.\d+)?)\s*%\s*of\s*(.+)/i);
+  if (pctOf) {
+    const base = parseAndCompute(pctOf[2]);
+    if (base !== null) return (parseFloat(pctOf[1]) / 100) * base.val;
+    return null;
+  }
 
-Never mix rules. Math in \u2192 numbers out. Chat in \u2192 chat out.`;
+  // Try suffix math directly
+  const expanded = expandSuffixesLocal(s);
+  try {
+    const r = Function('"use strict"; return (' + expanded + ')')();
+    if (isFinite(r)) return { val: r, expr: s };
+  } catch(e) {}
 
+  // Try converting word numbers one side at a time around operators
+  const opMatch = s.match(/^(.+?)\s*(divided\s+by|multiplied\s+by|plus|minus|times|over|\+|-|\*|x|\/|mod)\s*(.+)$/i);
+  if (opMatch) {
+    const opMap = { 'divided by':'/','over':'/','multiplied by':'*','times':'*','x':'*','plus':'+','minus':'-','mod':'%' };
+    let left = opMatch[1].trim(), op = opMatch[2].trim().toLowerCase(), right = opMatch[3].trim();
+    op = opMap[op] || op;
+    const lNum = wordsToNumber(left) ?? parseAndCompute(left)?.val;
+    const rNum = wordsToNumber(right) ?? parseAndCompute(right)?.val;
+    if (lNum !== null && rNum !== null) {
+      const r = Function('"use strict"; return (' + lNum + op + rNum + ')')();
+      if (isFinite(r)) return { val: r, expr: lNum + ' ' + op + ' ' + rNum };
+    }
+  }
+
+  // Pure word number
+  const wn = wordsToNumber(s);
+  if (wn !== null) return { val: wn, expr: s };
+
+  return null;
+}
+
+function buildReply(result, input) {
+  const val = result.val;
+  let out = '= ' + fmtNum(val);
+  const abs = Math.abs(val);
+  if      (abs >= 1e12) out += '\n\u2248 ' + (val/1e12).toPrecision(5).replace(/\.?0+$/,'') + ' T';
+  else if (abs >= 1e9)  out += '\n\u2248 ' + (val/1e9).toPrecision(5).replace(/\.?0+$/,'')  + ' B';
+  else if (abs >= 1e6)  out += '\n\u2248 ' + (val/1e6).toPrecision(5).replace(/\.?0+$/,'')  + ' M';
+  else if (abs >= 1e3)  out += '\n\u2248 ' + (val/1e3).toPrecision(5).replace(/\.?0+$/,'')  + ' k';
+  return out;
+}
+
+const CHAT_REPLIES = {
+  hello:    "Hey! Type any math expression and I'll solve it instantly.",
+  hi:       "Hi! Give me a calculation to solve.",
+  hey:      "Hey! What do you want to calculate?",
+  thanks:   "No problem! Give me another one.",
+  "thank you": "Anytime!",
+  wow:      "I know right! Math is cool.",
+  amazing:  "Thanks! Try another one.",
+  cool:     "Glad you think so! Try something harder.",
+  "what can you do": "I solve math: 79M/20k, sqrt(144), 2^10, five hundred divided by three, percentages, and more!",
+  help:     'Just type any math \u2014 I handle k/M/B/T suffixes, word numbers, powers, square roots and standard arithmetic.'
+};
+
+function getChatReply(s) {
+  const lower = s.toLowerCase().trim().replace(/[!?.]/g,'');
+  return CHAT_REPLIES[lower] || null;
+}
+
+let aiMsgs = [];
 function addMsg(role, text, isError) {
   const empty = document.getElementById('empty-state');
   if (empty) empty.remove();
-
   const wrap = document.createElement('div');
   wrap.className = 'msg ' + role;
-
   const label = document.createElement('div');
   label.className = 'msg-label';
-  label.textContent = role === 'user' ? 'YOU' : 'CALC AI';
-
+  label.textContent = role === 'user' ? 'YOU' : 'CALC';
   const bubble = document.createElement('div');
   bubble.className = 'msg-bubble' + (isError ? ' error-bubble' : '');
-  bubble.style.whiteSpace = 'pre-line';
   bubble.textContent = text;
-
   wrap.appendChild(label);
   wrap.appendChild(bubble);
-  chatArea.appendChild(wrap);
-  chatArea.scrollTop = chatArea.scrollHeight;
-  return bubble;
+  document.getElementById('chat-area').appendChild(wrap);
+  document.getElementById('chat-area').scrollTop = 9999;
 }
 
-function addTyping() {
-  const empty = document.getElementById('empty-state');
-  if (empty) empty.remove();
-
-  const wrap = document.createElement('div');
-  wrap.className = 'msg ai';
-  wrap.id = 'typing-indicator';
-
-  const label = document.createElement('div');
-  label.className = 'msg-label';
-  label.textContent = 'CALC AI';
-
-  const bubble = document.createElement('div');
-  bubble.className = 'msg-bubble';
-  bubble.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-
-  wrap.appendChild(label);
-  wrap.appendChild(bubble);
-  chatArea.appendChild(wrap);
-  chatArea.scrollTop = chatArea.scrollHeight;
-}
-
-function removeTyping() {
-  const t = document.getElementById('typing-indicator');
-  if (t) t.remove();
-}
-
-async function sendAI() {
-  const raw = aiInput.value.trim();
+function sendAI() {
+  const input = document.getElementById('ai-input');
+  const btn = document.getElementById('ai-send-btn');
+  const raw = input.value.trim();
   if (!raw) return;
-
-  aiInput.value = '';
-  aiSendBtn.disabled = true;
+  input.value = '';
+  btn.disabled = true;
   addMsg('user', raw);
-  addTyping();
 
-  aiMessages.push({ role: 'user', content: raw });
+  setTimeout(() => {
+    // 1. Chat reply?
+    const chat = getChatReply(raw);
+    if (chat) { addMsg('ai', chat); btn.disabled = false; return; }
 
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: AI_SYSTEM,
-        messages: aiMessages
-      })
-    });
-
-    const data = await res.json();
-    const reply = (data.content?.map(c => c.text || '').join('') || '').trim();
-    aiMessages.push({ role: 'assistant', content: reply });
-
-    removeTyping();
-    addMsg('ai', reply || 'Hmm, no response. Try again.');
-  } catch(err) {
-    removeTyping();
-    addMsg('ai', 'Connection error. Check your network.', true);
-  }
-
-  aiSendBtn.disabled = false;
+    // 2. Math
+    const result = parseAndCompute(raw);
+    if (result !== null) {
+      addMsg('ai', buildReply(result, raw));
+    } else {
+      addMsg('ai', "Hmm, couldn't parse that. Try: 79M/20k, sqrt(144), or five hundred divided by three.", true);
+    }
+    btn.disabled = false;
+  }, 120);
 }
 </script>
 </body>
