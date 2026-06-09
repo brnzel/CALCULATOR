@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CALC</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --panel: #111318;
+    --border: #1e2330;
+    --accent: #00e5ff;
+    --accent2: #ff4081;
+    --accent3: #69ff47;
+    --purple: #c792ea;
+    --text: #e0e8f0;
+    --muted: #4a5568;
+    --display-bg: #060810;
+    --btn-bg: #161b26;
+    --btn-hover: #1e2535;
+    --btn-active: #252d42;
+  }
+
+  /* ── THEMES ── */
+  [data-theme="cyber"] {
+    --bg: #0a0c10; --panel: #111318; --border: #1e2330;
+    --accent: #00e5ff; --accent2: #ff4081; --accent3: #69ff47;
+    --text: #e0e8f0; --muted: #4a5568; --display-bg: #060810;
+    --btn-bg: #161b26; --btn-hover: #1e2535; --btn-active: #252d42;
+  }
+  [data-theme="sakura"] {
+    --bg: #1a0a12; --panel: #211018; --border: #3d1f2e;
+    --accent: #ff7eb3; --accent2: #ff4081; --accent3: #ffb3d1;
+    --text: #ffe0ec; --muted: #7a4060; --display-bg: #130810;
+    --btn-bg: #2a1020; --btn-hover: #381528; --btn-active: #451a32;
+  }
+  [data-theme="forest"] {
+    --bg: #080f0a; --panel: #0f1a10; --border: #1a2e1c;
+    --accent: #4ade80; --accent2: #fb923c; --accent3: #a3e635;
+    --text: #d4f0d8; --muted: #3a5c3e; --display-bg: #050d06;
+    --btn-bg: #111e13; --btn-hover: #172618; --btn-active: #1e301f;
+  }
+  [data-theme="amber"] {
+    --bg: #0f0900; --panel: #1a1000; --border: #2e1f00;
+    --accent: #f59e0b; --accent2: #ef4444; --accent3: #fde68a;
+    --text: #fef3c7; --muted: #5c3d00; --display-bg: #0a0600;
+    --btn-bg: #1f1400; --btn-hover: #2a1c00; --btn-active: #362400;
+  }
+  [data-theme="slate"] {
+    --bg: #f0f2f5; --panel: #ffffff; --border: #d1d9e0;
+    --accent: #3b82f6; --accent2: #ef4444; --accent3: #10b981;
+    --text: #1e293b; --muted: #94a3b8; --display-bg: #e8ecf0;
+    --btn-bg: #f8fafc; --btn-hover: #edf2f7; --btn-active: #e2e8f0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--text);
+  }
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(0,229,255,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(255,64,129,0.04) 0%, transparent 50%);
+    pointer-events:none;
+  }
+
+  .calc-wrapper {
+    width: 440px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 0 60px rgba(0,0,0,0.6), 0 0 20px rgba(0,229,255,0.05);
+    overflow: hidden;
+    position: relative;
+  }
+  .calc-wrapper::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    flex: 1;
+    padding: 11px 8px;
+    background: transparent;
+    border: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .tab:last-child { border-right: none; }
+  .tab.active { color: var(--accent); }
+  .tab.active::after {
+    content:'';
+    position:absolute; bottom:0; left:15%; right:15%; height:2px;
+    background: var(--accent);
+    border-radius: 2px 2px 0 0;
+  }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  /* ===== CALC TAB ===== */
+  #tab-calc { display: block; }
+  #tab-ai   { display: none; }
+
+  /* Display */
+  .display {
+    background: var(--display-bg);
+    padding: 20px 22px 16px;
+    border-bottom: 1px solid var(--border);
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .expr-line {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: right;
+    min-height: 20px;
+    margin-bottom: 6px;
+    word-break: break-all;
+    letter-spacing: 1px;
+    opacity: 0.75;
+  }
+  .result-line {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 38px;
+    color: var(--text);
+    text-align: right;
+    line-height: 1.1;
+    transition: color 0.15s, transform 0.1s;
+    word-break: break-all;
+    letter-spacing: -0.5px;
+  }
+  .result-line.computed {
+    text-shadow: 0 0 20px rgba(0,229,255,0.3);
+  }
+  .result-line.computed { color: var(--accent); }
+  .result-line.error { color: var(--accent2) !important; font-size: 18px !important; }
+  .scaled-line {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--accent3);
+    text-align: right;
+    min-height: 18px;
+    margin-top: 5px;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+  }
+
+  /* Suffix tag buttons */
+  .suffix-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: #0d1018;
+    align-items: center;
+  }
+  .suffix-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    font-weight: 700;
+    margin-right: 2px;
+  }
+  .suf-btn {
+    padding: 4px 12px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: transparent;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.12s;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .suf-btn:hover { color: var(--text); border-color: #3a4260; background: rgba(255,255,255,0.03); }
+  .suf-btn.k { color: #ffc947; border-color: rgba(255,201,71,0.3); background: rgba(255,201,71,0.05); }
+  .suf-btn.k:hover { background: rgba(255,201,71,0.12); }
+  .suf-btn.m { color: #ff7043; border-color: rgba(255,112,67,0.3); background: rgba(255,112,67,0.05); }
+  .suf-btn.m:hover { background: rgba(255,112,67,0.12); }
+  .suf-btn.b { color: var(--purple); border-color: rgba(199,146,234,0.3); background: rgba(199,146,234,0.05); }
+  .suf-btn.b:hover { background: rgba(199,146,234,0.12); }
+  .suf-btn.t { color: var(--accent); border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.05); }
+  .suf-btn.t:hover { background: rgba(0,229,255,0.12); }
+
+  /* Buttons grid */
+  .buttons {
+    padding: 14px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .btn {
+    padding: 17px 8px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--btn-bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.1s;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+    user-select: none;
+  }
+  .btn:hover { background: var(--btn-hover); border-color: #2a3248; }
+  .btn:active { background: var(--btn-active); transform: scale(0.96); }
+  .btn.op { color: var(--accent); border-color: rgba(0,229,255,0.2); background: rgba(0,229,255,0.05); }
+  .btn.op:hover { background: rgba(0,229,255,0.1); border-color: rgba(0,229,255,0.35); }
+  .btn.fn { color: #b0b8d0; font-size: 12px; }
+  .btn.adv { color: var(--purple); font-size: 12px; border-color: rgba(199,146,234,0.2); background: rgba(199,146,234,0.04); }
+  .btn.adv:hover { background: rgba(199,146,234,0.1); }
+  .btn.clear { color: var(--accent2); border-color: rgba(255,64,129,0.25); background: rgba(255,64,129,0.05); }
+  .btn.clear:hover { background: rgba(255,64,129,0.12); }
+  .btn.eq { background: var(--accent); color: #000; border-color: var(--accent); font-size: 20px; font-weight: 700; }
+  .btn.eq:hover { background: #33eaff; }
+  .btn.eq:active { background: #00c4dd; }
+  .btn.span2 { grid-column: span 2; }
+  .ripple {
+    position: absolute; border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    transform: scale(0);
+    animation: ripple 0.35s linear;
+    pointer-events: none;
+  }
+  @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+  /* Mode toggle */
+  .mode-bar {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+  .mode-btn {
+    flex: 1;
+    padding: 6px;
+    background: transparent;
+    border: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    cursor: pointer;
+    border-right: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .mode-btn:last-child { border-right: none; }
+  .mode-btn.active { color: var(--accent3); background: rgba(105,255,71,0.04); }
+  .mode-btn:hover:not(.active) { color: var(--text); }
+
+  /* ===== AI TAB ===== */
+  .ai-panel {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 480px;
+  }
+  .ai-hint {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    background: rgba(0,229,255,0.04);
+    border: 1px solid rgba(0,229,255,0.1);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .ai-hint strong { color: var(--accent); font-family: 'Share Tech Mono', monospace; }
+
+  .chat-area {
+    flex: 1;
+    background: var(--display-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    overflow-y: auto;
+    min-height: 300px;
+    max-height: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .chat-area::-webkit-scrollbar { width: 3px; }
+  .chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .msg {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-width: 90%;
+  }
+  .msg.user { align-self: flex-end; align-items: flex-end; }
+  .msg.ai   { align-self: flex-start; align-items: flex-start; }
+
+  .msg-bubble {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    line-height: 1.5;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .msg.user .msg-bubble {
+    background: rgba(0,229,255,0.1);
+    border: 1px solid rgba(0,229,255,0.25);
+    color: var(--accent);
+    border-radius: 10px 10px 2px 10px;
+  }
+  .msg.ai .msg-bubble {
+    background: rgba(105,255,71,0.06);
+    border: 1px solid rgba(105,255,71,0.15);
+    color: var(--text);
+    border-radius: 10px 10px 10px 2px;
+  }
+  .msg.ai .msg-bubble.error-bubble {
+    background: rgba(255,64,129,0.06);
+    border-color: rgba(255,64,129,0.2);
+    color: var(--accent2);
+  }
+  .msg-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    font-weight: 700;
+    font-family: 'Rajdhani', sans-serif;
+    padding: 0 4px;
+  }
+  .typing-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent3);
+    border-radius: 50%;
+    animation: blink 1s infinite;
+    margin: 0 1px;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100% { opacity:0.2; } 40% { opacity:1; } }
+
+  .ai-input-row {
+    display: flex;
+    gap: 8px;
+  }
+  .ai-input {
+    flex: 1;
+    background: var(--display-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .ai-input::placeholder { color: var(--muted); }
+  .ai-input:focus { border-color: rgba(0,229,255,0.4); }
+
+  .ai-send {
+    padding: 10px 16px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .ai-send:hover { background: #33eaff; }
+  .ai-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 8px;
+    opacity: 0.35;
+  }
+  .empty-state svg { width: 32px; height: 32px; }
+  .empty-state p { font-size: 11px; letter-spacing: 1px; font-weight: 600; }
+
+  /* HISTORY */
+  .history-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-top: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    font-weight: 700;
+    transition: color 0.15s;
+    background: #0d1018;
+    user-select: none;
+  }
+  .history-toggle:hover { color: var(--text); }
+  .hist-count {
+    background: rgba(0,229,255,0.15);
+    color: var(--accent);
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+  .history-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.28s ease;
+    background: var(--display-bg);
+    border-top: none;
+  }
+  .history-panel.open {
+    max-height: 220px;
+    border-top: 1px solid var(--border);
+    overflow-y: auto;
+  }
+  .history-panel::-webkit-scrollbar { width: 3px; }
+  .history-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .hist-empty {
+    text-align: center;
+    padding: 22px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  .hist-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 16px;
+    border-bottom: 1px solid #12161f;
+    cursor: pointer;
+    transition: background 0.1s;
+    gap: 12px;
+  }
+  .hist-item:last-child { border-bottom: none; }
+  .hist-item:hover { background: rgba(255,255,255,0.03); }
+  .hist-expr {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hist-result {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .hist-clear {
+    display: block;
+    width: 100%;
+    padding: 7px;
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--border);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.12s;
+  }
+  /* THEME CORNER BUTTON + DROPDOWN */
+  .suffix-bar { position: relative; }
+  .theme-corner { margin-left: auto; position: relative; }
+  .theme-icon-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 7px;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 0.12s;
+  }
+  .theme-icon-btn:hover { background: rgba(255,255,255,0.07); }
+  .whole-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.15s;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .whole-btn:hover { color: var(--text); border-color: #3a4260; background: rgba(255,255,255,0.04); }
+  .whole-btn.on {
+    background: rgba(105,255,71,0.12);
+    border-color: var(--accent3);
+    color: var(--accent3);
+  }
+  .theme-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 99;
+    min-width: 130px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .theme-dropdown.open { display: block; }
+  .theme-dropdown .swatch {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--muted);
+    border-radius: 0;
+    border: none;
+    width: 100%;
+    transition: background 0.1s, color 0.1s;
+  }
+  .theme-dropdown .swatch:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+  .theme-dropdown .swatch.active { color: var(--accent); background: rgba(255,255,255,0.03); }
+  .sw-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+<div class="calc-wrapper">
+
+  <!-- MAIN TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('calc')" id="t-calc">CALCULATOR</button>
+    <button class="tab" onclick="switchTab('ai')" id="t-ai">✦ AI INPUT</button>
+  </div>
+
+  <!-- ===== CALC TAB ===== -->
+  <div id="tab-calc">
+    <div class="display">
+      <div class="expr-line" id="expr"></div>
+      <div class="result-line" id="result">0</div>
+      <div class="scaled-line" id="scaled"></div>
+    </div>
+
+    <!-- Suffix shortcuts + theme button -->
+    <div class="suffix-bar">
+      <span class="suffix-label">SCALE</span>
+      <button class="suf-btn k" onclick="appendSuffix('k')">k</button>
+      <button class="suf-btn m" onclick="appendSuffix('M')">M</button>
+      <button class="suf-btn b" onclick="appendSuffix('B')">B</button>
+      <button class="suf-btn t" onclick="appendSuffix('T')">T</button>
+      <button class="whole-btn" id="whole-btn" onclick="toggleWholeMode()" title="1 decimal place mode">#.0</button>
+      <div class="theme-corner" id="theme-corner">
+        <button class="theme-icon-btn" onclick="toggleThemeDropdown(event)" title="Theme">🎨</button>
+        <div class="theme-dropdown" id="theme-dropdown">
+          <div class="swatch active" data-t="cyber"  onclick="setTheme('cyber')">  <span class="sw-dot" style="background:conic-gradient(#00e5ff,#ff4081,#69ff47)"></span>Cyber</div>
+          <div class="swatch"        data-t="sakura" onclick="setTheme('sakura')"> <span class="sw-dot" style="background:conic-gradient(#ff7eb3,#ffb3d1,#ff4081)"></span>Sakura</div>
+          <div class="swatch"        data-t="forest" onclick="setTheme('forest')"> <span class="sw-dot" style="background:conic-gradient(#4ade80,#a3e635,#fb923c)"></span>Forest</div>
+          <div class="swatch"        data-t="amber"  onclick="setTheme('amber')">  <span class="sw-dot" style="background:conic-gradient(#f59e0b,#fde68a,#ef4444)"></span>Amber</div>
+          <div class="swatch"        data-t="slate"  onclick="setTheme('slate')">  <span class="sw-dot" style="background:conic-gradient(#3b82f6,#e2e8f0,#10b981)"></span>Slate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode (Basic / Adv) -->
+    <div class="mode-bar">
+      <button class="mode-btn active" id="mb-basic" onclick="setMode('basic')">BASIC</button>
+      <button class="mode-btn" id="mb-adv" onclick="setMode('adv')">ADVANCED</button>
+    </div>
+
+    <!-- BASIC BUTTONS -->
+    <div class="buttons" id="btns-basic">
+      <button class="btn clear" onclick="action('ac')">AC</button>
+      <button class="btn fn" onclick="action('backspace')">⌫</button>
+      <button class="btn fn" onclick="action('pct')">%</button>
+      <button class="btn op" onclick="action('op','/')">÷</button>
+
+      <button class="btn" onclick="action('num','7')">7</button>
+      <button class="btn" onclick="action('num','8')">8</button>
+      <button class="btn" onclick="action('num','9')">9</button>
+      <button class="btn op" onclick="action('op','*')">×</button>
+
+      <button class="btn" onclick="action('num','4')">4</button>
+      <button class="btn" onclick="action('num','5')">5</button>
+      <button class="btn" onclick="action('num','6')">6</button>
+      <button class="btn op" onclick="action('op','-')">−</button>
+
+      <button class="btn" onclick="action('num','1')">1</button>
+      <button class="btn" onclick="action('num','2')">2</button>
+      <button class="btn" onclick="action('num','3')">3</button>
+      <button class="btn op" onclick="action('op','+')">+</button>
+
+      <button class="btn fn" onclick="action('sign')">+/−</button>
+      <button class="btn" onclick="action('num','0')">0</button>
+      <button class="btn fn" onclick="action('dot')">.</button>
+      <button class="btn eq" onclick="action('eq')">=</button>
+    </div>
+
+    <!-- ADV BUTTONS -->
+    <div class="buttons" id="btns-adv" style="display:none">
+      <button class="btn clear" onclick="action('ac')">AC</button>
+      <button class="btn fn" onclick="action('backspace')">⌫</button>
+      <button class="btn fn" onclick="action('paren','(')">( </button>
+      <button class="btn fn" onclick="action('paren',')')"> )</button>
+
+      <button class="btn adv" onclick="action('fn','Math.sqrt(')">√x</button>
+      <button class="btn adv" onclick="action('fn','Math.cbrt(')">∛x</button>
+      <button class="btn adv" onclick="action('pow','**2')">x²</button>
+      <button class="btn adv" onclick="action('pow','**3')">x³</button>
+
+      <button class="btn adv" onclick="action('fn','Math.log(')">ln</button>
+      <button class="btn adv" onclick="action('fn','Math.log10(')">log</button>
+      <button class="btn adv" onclick="action('fn','Math.exp(')">eˣ</button>
+      <button class="btn adv" onclick="action('pow','**')">xʸ</button>
+
+      <button class="btn adv" onclick="action('fn','Math.sin(')">sin</button>
+      <button class="btn adv" onclick="action('fn','Math.cos(')">cos</button>
+      <button class="btn adv" onclick="action('fn','Math.tan(')">tan</button>
+      <button class="btn adv" onclick="action('const','Math.PI')">π</button>
+
+      <button class="btn" onclick="action('num','7')">7</button>
+      <button class="btn" onclick="action('num','8')">8</button>
+      <button class="btn" onclick="action('num','9')">9</button>
+      <button class="btn op" onclick="action('op','/')">÷</button>
+
+      <button class="btn" onclick="action('num','4')">4</button>
+      <button class="btn" onclick="action('num','5')">5</button>
+      <button class="btn" onclick="action('num','6')">6</button>
+      <button class="btn op" onclick="action('op','*')">×</button>
+
+      <button class="btn" onclick="action('num','1')">1</button>
+      <button class="btn" onclick="action('num','2')">2</button>
+      <button class="btn" onclick="action('num','3')">3</button>
+      <button class="btn op" onclick="action('op','-')">−</button>
+
+      <button class="btn" onclick="action('num','0')">0</button>
+      <button class="btn fn" onclick="action('dot')">.</button>
+      <button class="btn op" onclick="action('op','+')">+</button>
+      <button class="btn eq" onclick="action('eq')">=</button>
+    </div>
+    <!-- HISTORY -->
+    <div class="history-toggle" id="hist-toggle" onclick="toggleHistory()">
+      <span>▸ HISTORY</span>
+      <span class="hist-count" id="hist-count" style="display:none"></span>
+    </div>
+    <div class="history-panel" id="history-panel"></div>
+  </div>
+
+  <!-- ===== AI TAB ===== -->
+  <div id="tab-ai">
+    <div class="ai-panel">
+      <div class="ai-hint">
+        Ask anything — math, words, or chat.<br>
+        <strong>40M / 20k</strong> &nbsp;·&nbsp; <strong>five hundred divided by three</strong> &nbsp;·&nbsp; <strong>what is 7% of 2B</strong> &nbsp;·&nbsp; <strong>hello!</strong>
+      </div>
+
+      <div class="chat-area" id="chat-area">
+        <div class="empty-state" id="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+          </svg>
+          <p>TYPE A CALCULATION ABOVE</p>
+        </div>
+      </div>
+
+      <div class="ai-input-row">
+        <input class="ai-input" id="ai-input" placeholder="e.g. 79M / 20k + 500Th" onkeydown="if(event.key==='Enter') sendAI()" />
+        <button class="ai-send" id="ai-send-btn" onclick="sendAI()">ASK</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// =================== CALCULATOR STATE ===================
+let expr = '', lastResult = null, hasResult = false, parenCount = 0;
+let calcMode = 'basic';
+
+const resultEl  = document.getElementById('result');
+const exprEl    = document.getElementById('expr');
+const scaledEl  = document.getElementById('scaled');
+
+function switchTab(t) {
+  document.getElementById('tab-calc').style.display = t === 'calc' ? 'block' : 'none';
+  document.getElementById('tab-ai').style.display   = t === 'ai'   ? 'block' : 'none';
+  document.getElementById('t-calc').classList.toggle('active', t === 'calc');
+  document.getElementById('t-ai').classList.toggle('active', t === 'ai');
+}
+
+function setTheme(t) {
+  document.querySelector('.calc-wrapper').setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-dropdown .swatch').forEach(s => s.classList.toggle('active', s.dataset.t === t));
+  document.getElementById('theme-dropdown').classList.remove('open');
+}
+
+function toggleThemeDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('theme-dropdown').classList.toggle('open');
+}
+
+document.addEventListener('click', () => {
+  document.getElementById('theme-dropdown').classList.remove('open');
+});
+
+function setMode(m) {
+  calcMode = m;
+  document.getElementById('mb-basic').classList.toggle('active', m === 'basic');
+  document.getElementById('mb-adv').classList.toggle('active',   m === 'adv');
+  document.getElementById('btns-basic').style.display = m === 'basic' ? 'grid' : 'none';
+  document.getElementById('btns-adv').style.display   = m === 'adv'   ? 'grid' : 'none';
+  reset();
+}
+
+// Suffix multipliers
+const SUFFIX = { k: 1e3, K: 1e3, Th: 1e3, th: 1e3, M: 1e6, B: 1e9, T: 1e12 };
+
+function appendSuffix(s) {
+  if (!expr) return;
+  // don't double-append
+  if (/[kKMBT]$/.test(expr) || /Th$/.test(expr)) return;
+  expr += s;
+  tryLiveEval();
+  render();
+}
+
+function reset() {
+  expr = ''; lastResult = null; hasResult = false; parenCount = 0;
+  resultEl.textContent = '0';
+  resultEl.className = 'result-line';
+  exprEl.textContent = '';
+  scaledEl.textContent = '';
+}
+
+function action(type, val) {
+  rippleEffect(event);
+  if (type === 'ac') { reset(); return; }
+
+  if (type === 'backspace') {
+    if (hasResult) { reset(); return; }
+    if (/Th$/.test(expr)) expr = expr.slice(0,-2);
+    else if (expr.length) {
+      const last = expr.slice(-1);
+      if (last === '(') parenCount--;
+      if (last === ')') parenCount++;
+      expr = expr.slice(0,-1);
+    }
+    tryLiveEval(); render(); return;
+  }
+
+  if (type === 'num') {
+    if (hasResult) { expr = ''; hasResult = false; }
+    expr += val;
+  }
+  if (type === 'dot') {
+    if (hasResult) { expr = '0'; hasResult = false; }
+    const parts = expr.split(/[\+\-\*\/\(\)]/);
+    if (!parts[parts.length-1].includes('.')) expr += '.';
+  }
+  if (type === 'op') {
+    if (hasResult) hasResult = false;
+    if (expr && /[\+\-\*\/]$/.test(expr)) expr = expr.slice(0,-1);
+    expr += val;
+  }
+  if (type === 'sign') {
+    if (!expr) return;
+    if (hasResult && lastResult !== null) { expr = String(-lastResult); hasResult = false; }
+    else expr = '(-(' + expr + '))';
+  }
+  if (type === 'pct') {
+    if (expr) { try { expr = String(safeEval(expandSuffixes(expr)) / 100); } catch(e){} }
+  }
+  if (type === 'paren') {
+    if (hasResult) { expr = String(lastResult); hasResult = false; }
+    if (val === '(') { parenCount++; expr += '('; }
+    else if (val === ')' && parenCount > 0) { parenCount--; expr += ')'; }
+  }
+  if (type === 'fn') {
+    if (hasResult) { expr = val + lastResult + ')'; hasResult = false; compute(); return; }
+    parenCount++; expr += val;
+  }
+  if (type === 'pow') { if (expr) expr += val; }
+  if (type === 'const') {
+    if (hasResult) { expr = val; hasResult = false; } else expr += val;
+  }
+  if (type === 'eq') { compute(); return; }
+
+  tryLiveEval(); render();
+}
+
+// Expand suffix letters into their numeric value in an expression string
+// Wrap each expanded term in parens so 69k/6.9k \u2192 (69*1000)/(6.9*1000) = 10, not 10,000,000
+function expandSuffixes(e) {
+  return e
+    .replace(/(\d+(?:\.\d+)?)\s*Th/gi, (_, n) => '(' + n + '*1000)')
+    .replace(/(\d+(?:\.\d+)?)\s*k/gi,  (_, n) => '(' + n + '*1000)')
+    .replace(/(\d+(?:\.\d+)?)\s*M/g,   (_, n) => '(' + n + '*1000000)')
+    .replace(/(\d+(?:\.\d+)?)\s*B/g,   (_, n) => '(' + n + '*1000000000)')
+    .replace(/(\d+(?:\.\d+)?)\s*T/g,   (_, n) => '(' + n + '*1000000000000)');
+}
+
+function safeEval(e) {
+  let exp = e + ')'.repeat(Math.max(0, parenCount));
+  exp = exp.replace(/(\d)(Math\.)/g, '$1*$2');
+  return Function('"use strict"; return (' + exp + ')')();
+}
+
+function tryLiveEval() {
+  try {
+    if (expr && !/[\+\-\*\/\(]$/.test(expr.replace(/Th$/,'').replace(/[kKMBT]$/,''))) {
+      const r = safeEval(expandSuffixes(expr));
+      if (isFinite(r)) {
+        exprEl.textContent = prettify(expr);
+        resultEl.textContent = fmtNum(r);
+        resultEl.className = 'result-line';
+        showScaled(r); return;
+      }
+    }
+  } catch(e) {}
+  exprEl.textContent = '';
+  resultEl.textContent = expr || '0';
+  resultEl.className = 'result-line';
+  scaledEl.textContent = '';
+}
+
+let calcHistory = [];
+
+function compute() {
+  if (!expr) return;
+  try {
+    const r = safeEval(expandSuffixes(expr));
+    if (!isFinite(r)) throw 0;
+    const prettyExpr = prettify(expr);
+    exprEl.textContent = prettyExpr + ' =';
+    // Save to history
+    calcHistory.unshift({ expr: prettyExpr, result: r });
+    if (calcHistory.length > 50) calcHistory.pop();
+    renderHistory();
+    lastResult = r; expr = String(r); parenCount = 0; hasResult = true;
+    resultEl.textContent = fmtNum(r);
+    resultEl.className = 'result-line computed';
+    showScaled(r);
+  } catch(e) {
+    exprEl.textContent = prettify(expr);
+    resultEl.textContent = 'Error';
+    resultEl.className = 'result-line error';
+    scaledEl.textContent = '';
+    expr = ''; parenCount = 0;
+  }
+}
+
+function toggleHistory() {
+  const panel = document.getElementById('history-panel');
+  const toggle = document.getElementById('hist-toggle');
+  const open = panel.classList.toggle('open');
+  toggle.querySelector('span').textContent = open ? '\u25be HISTORY' : '\u25b8 HISTORY';
+}
+
+function renderHistory() {
+  const panel = document.getElementById('history-panel');
+  const countEl = document.getElementById('hist-count');
+  if (calcHistory.length === 0) {
+    countEl.style.display = 'none';
+    panel.innerHTML = '<div class="hist-empty">NO HISTORY YET</div>';
+    return;
+  }
+  countEl.style.display = 'inline';
+  countEl.textContent = calcHistory.length;
+  panel.innerHTML =
+    calcHistory.map((h, i) =>
+      `<div class="hist-item" onclick="loadHistory(${i})">
+        <span class="hist-expr">${h.expr}</span>
+        <span class="hist-result">${fmtNum(h.result)}</span>
+      </div>`
+    ).join('') +
+    `<button class="hist-clear" onclick="clearHistory()">\u2715 CLEAR HISTORY</button>`;
+}
+
+function loadHistory(i) {
+  const h = calcHistory[i];
+  expr = String(h.result);
+  lastResult = h.result;
+  hasResult = true;
+  parenCount = 0;
+  exprEl.textContent = h.expr + ' =';
+  resultEl.textContent = fmtNum(h.result);
+  resultEl.className = 'result-line computed';
+  showScaled(h.result);
+  // close history panel
+  document.getElementById('history-panel').classList.remove('open');
+  document.querySelector('#hist-toggle span').textContent = '\u25b8 HISTORY';
+}
+
+function clearHistory() {
+  calcHistory = [];
+  renderHistory();
+}
+
+function render() {
+  resultEl.textContent = expr || '0';
+  resultEl.className = 'result-line';
+  exprEl.textContent = '';
+  scaledEl.textContent = '';
+}
+
+function showScaled(n) {
+  if (!isFinite(n) || n === 0) { scaledEl.textContent = ''; return; }
+  const abs = Math.abs(n);
+  let label;
+  if (abs >= 1e12)      label = (n/1e12).toPrecision(6).replace(/\.?0+$/,'') + ' T  (Trillions)';
+  else if (abs >= 1e9)  label = (n/1e9).toPrecision(6).replace(/\.?0+$/,'')  + ' B  (Billions)';
+  else if (abs >= 1e6)  label = (n/1e6).toPrecision(6).replace(/\.?0+$/,'')  + ' M  (Millions)';
+  else if (abs >= 1e3)  label = (n/1e3).toPrecision(6).replace(/\.?0+$/,'')  + ' k  (Thousands)';
+  else label = '';
+  scaledEl.textContent = label;
+}
+
+function prettify(e) {
+  return e.replace(/Math\.sqrt\(/g,'\u221a(').replace(/Math\.cbrt\(/g,'\u221b(')
+    .replace(/Math\.log10\(/g,'log(').replace(/Math\.log\(/g,'ln(')
+    .replace(/Math\.exp\(/g,'e^(').replace(/Math\.sin\(/g,'sin(')
+    .replace(/Math\.cos\(/g,'cos(').replace(/Math\.tan\(/g,'tan(')
+    .replace(/Math\.PI/g,'\u03c0').replace(/\*\*/g,'^').replace(/\*/g,'\u00d7').replace(/\//g,'\u00f7');
+}
+
+let wholeMode = localStorage.getItem('wholeMode') === 'true';
+
+function applyWholeMode() {
+  const btn = document.getElementById('whole-btn');
+  btn.classList.toggle('on', wholeMode);
+  btn.title = wholeMode ? '1 decimal mode ON \u2014 click to turn off' : '1 decimal place mode';
+}
+
+function toggleWholeMode() {
+  wholeMode = !wholeMode;
+  localStorage.setItem('wholeMode', wholeMode);
+  applyWholeMode();
+  if (lastResult !== null) {
+    resultEl.textContent = fmtNum(lastResult);
+    showScaled(lastResult);
+  }
+}
+
+// Apply persisted state on load
+document.addEventListener('DOMContentLoaded', applyWholeMode);
+
+function fmtNum(n) {
+  if (wholeMode) return parseFloat(n.toFixed(1)).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  if (Math.abs(n) >= 1e15) return n.toExponential(4);
+  if (!Number.isInteger(n) && Math.abs(n) < 1e10) return parseFloat(n.toPrecision(10)).toLocaleString('en-US');
+  return n.toLocaleString('en-US', { maximumFractionDigits: 10 });
+}
+
+function rippleEffect(e) {
+  if (!e || !e.currentTarget) return;
+  const btn = e.currentTarget;
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  r.style.cssText = `width:${size}px;height:${size}px;left:${(e.clientX||rect.left+rect.width/2)-rect.left-size/2}px;top:${(e.clientY||rect.top+rect.height/2)-rect.top-size/2}px`;
+  btn.appendChild(r);
+  setTimeout(() => r.remove(), 400);
+}
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  // Only fire on calc tab, and ignore if user is typing in AI input field
+  const aiTabActive = document.getElementById('t-ai').classList.contains('active');
+  if (aiTabActive) return;
+  if (document.activeElement === document.getElementById('ai-input')) return;
+
+  const k = e.key;
+
+  // Digits \u2014 normal and numpad
+  if ((k >= '0' && k <= '9') || (k >= 'Numpad0' && k <= 'Numpad9')) {
+    action('num', k.replace('Numpad',''));
+  }
+  else if (k === '.' || k === 'NumpadDecimal') action('dot');
+  else if (k === '+' || k === 'NumpadAdd')      action('op', '+');
+  else if (k === '-' || k === 'NumpadSubtract') action('op', '-');
+  else if (k === '*' || k === 'NumpadMultiply') action('op', '*');
+  else if (k === '/' || k === 'NumpadDivide')   { e.preventDefault(); action('op', '/'); }
+  else if (k === 'Enter' || k === 'NumpadEnter' || k === '=') { e.preventDefault(); action('eq'); }
+  else if (k === 'Backspace') action('backspace');
+  else if (k === 'Delete' || k === 'Escape') action('ac');
+  else if (k === '(') action('paren', '(');
+  else if (k === ')') action('paren', ')');
+  else if (k === '%') action('pct');
+});
+
+// =================== AI CHAT ===================
+const chatArea  = document.getElementById('chat-area');
+const aiInput   = document.getElementById('ai-input');
+const aiSendBtn = document.getElementById('ai-send-btn');
+let aiMessages  = [];
+
+const AI_SYSTEM = `You are CalcAI, a calculator assistant.
+
+RULE 1 \u2014 MATH INPUT (numbers, expressions, word numbers, suffix math):
+Reply with ONLY these lines, nothing else, no commentary, no filler phrases, no restating the question:
+= [exact decimal result, e.g. 1.611]
+\u2248 [scaled form ONLY if result >= 1000, e.g. 1.2 M or 3.95 k \u2014 skip this line if result < 1000]
+
+Do NOT repeat or restate the expression. Do NOT add any extra lines. Just the = line, and the \u2248 line if needed.
+
+RULE 2 \u2014 SHORTHAND SCALE:
+k/Th = \u00d71,000 | M = \u00d71,000,000 | B = \u00d71,000,000,000 | T = \u00d71,000,000,000,000
+Always show exact decimal (166.667 not 167). Always show scaled form if >= 1,000.
+
+RULE 3 \u2014 WORD NUMBERS:
+"five hundred divided by three" \u2192 compute 500/3, output as per RULE 1.
+
+RULE 4 \u2014 CASUAL CHAT (greetings, reactions, questions about you):
+Reply naturally in 1-2 short sentences. No markdown.
+
+Never mix rules. Math in \u2192 numbers out. Chat in \u2192 chat out.`;
+
+function addMsg(role, text, isError) {
+  const empty = document.getElementById('empty-state');
+  if (empty) empty.remove();
+
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ' + role;
+
+  const label = document.createElement('div');
+  label.className = 'msg-label';
+  label.textContent = role === 'user' ? 'YOU' : 'CALC AI';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble' + (isError ? ' error-bubble' : '');
+  bubble.style.whiteSpace = 'pre-line';
+  bubble.textContent = text;
+
+  wrap.appendChild(label);
+  wrap.appendChild(bubble);
+  chatArea.appendChild(wrap);
+  chatArea.scrollTop = chatArea.scrollHeight;
+  return bubble;
+}
+
+function addTyping() {
+  const empty = document.getElementById('empty-state');
+  if (empty) empty.remove();
+
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ai';
+  wrap.id = 'typing-indicator';
+
+  const label = document.createElement('div');
+  label.className = 'msg-label';
+  label.textContent = 'CALC AI';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+
+  wrap.appendChild(label);
+  wrap.appendChild(bubble);
+  chatArea.appendChild(wrap);
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-indicator');
+  if (t) t.remove();
+}
+
+async function sendAI() {
+  const raw = aiInput.value.trim();
+  if (!raw) return;
+
+  aiInput.value = '';
+  aiSendBtn.disabled = true;
+  addMsg('user', raw);
+  addTyping();
+
+  aiMessages.push({ role: 'user', content: raw });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: AI_SYSTEM,
+        messages: aiMessages
+      })
+    });
+
+    const data = await res.json();
+    const reply = (data.content?.map(c => c.text || '').join('') || '').trim();
+    aiMessages.push({ role: 'assistant', content: reply });
+
+    removeTyping();
+    addMsg('ai', reply || 'Hmm, no response. Try again.');
+  } catch(err) {
+    removeTyping();
+    addMsg('ai', 'Connection error. Check your network.', true);
+  }
+
+  aiSendBtn.disabled = false;
+}
+</script>
+</body>
+</html>
